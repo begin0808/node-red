@@ -434,10 +434,12 @@ const Navbar: React.FC<{ currentView: ViewState; setView: (v: ViewState) => void
 // --- Home ---
 const Home: React.FC<{ setView: (v: ViewState) => void }> = ({ setView }) => {
   return (
-    <div className="flex flex-col min-h-full bg-slate-950 text-white">
-      <div className="relative overflow-hidden flex-1 flex flex-col justify-center items-center py-20 px-8">
+    <div className="flex flex-col h-full bg-slate-950 text-white overflow-y-auto custom-scrollbar">
+      <div className="relative flex-1 flex flex-col justify-center items-center py-20 px-8 min-h-[600px]">
+        {/* Background Effects */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-950 to-slate-950"></div>
-        <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none bg-[url('[https://grainy-gradients.vercel.app/noise.svg](https://grainy-gradients.vercel.app/noise.svg)')]"></div>
+        <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+
         <div className="relative z-10 text-center max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/50 border border-slate-700 backdrop-blur-sm text-cyan-400 text-xs font-medium mb-6">
             <span className="relative flex h-2 w-2">
@@ -650,24 +652,44 @@ const Tutorial: React.FC<{ category: ViewState }> = ({ category }) => {
 
 // --- Custom Node Components ---
 const BaseNode = ({ label, icon: Icon, color, isSource, isTarget, onInject, id, data }: any) => (
-  // 縮小: min-w-[60px], h-5, padding, font-size
-  <div className={`relative min-w-[60px] bg-slate-800 border border-${color}-500/50 rounded-md shadow-[0_0_5px_rgba(var(--color-${color}-500),0.2)] text-[8px] text-slate-200 flex items-center overflow-hidden hover:border-${color}-400 transition-colors`}>
-    {isTarget && <Handle type="target" position={Position.Left} className={`!bg-${color}-500 !w-1.5 !h-1.5 !-left-0.5`} />}
+  // Updated: Solid background color (Scratch-style), smaller font, adjusted width
+  <div className={`relative min-w-[70px] bg-${color}-600 border-2 border-${color}-400 rounded-lg shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-200 text-[10px] text-white flex items-center overflow-hidden`}>
+
+    {/* Left Handle (Target) */}
+    {isTarget && (
+      <div className="absolute -left-1.5 flex items-center h-full z-10">
+        <Handle type="target" position={Position.Left} className="!w-3 !h-3 !border-2 !border-white opacity-0 hover:opacity-100" />
+        <div className="w-2 h-2 rounded-full bg-white shadow-sm"></div>
+      </div>
+    )}
+
+    {/* Icon Area */}
     {onInject ? (
       <div
-        className={`w-5 h-5 bg-gradient-to-br from-${color}-600 to-${color}-800 cursor-pointer flex items-center justify-center hover:brightness-110 active:scale-95 transition-all z-10 border-r border-${color}-500/30`}
+        className={`w-7 h-7 bg-${color}-800/50 cursor-pointer flex items-center justify-center hover:bg-${color}-800 z-10 border-r border-${color}-500/30`}
         onClick={(e) => { e.stopPropagation(); onInject(id, data); }}
         title="點擊觸發"
       >
-        <div className="w-1.5 h-1.5 bg-white rounded-sm shadow-sm"></div>
+        <div className="w-2 h-2 bg-white rounded-sm shadow-sm animate-pulse"></div>
       </div>
     ) : (
-      <div className={`w-5 h-5 flex items-center justify-center border-r border-${color}-500/30 bg-${color}-900/20`}>
-        <Icon className={`w-2.5 h-2.5 text-${color}-400`} />
+      <div className={`w-7 h-7 flex items-center justify-center border-r border-${color}-500/30 bg-${color}-800/30`}>
+        <Icon className="w-3.5 h-3.5 text-white/90" />
       </div>
     )}
-    <div className="px-1.5 py-0.5 flex-1 font-mono truncate leading-none">{data.label || label}</div>
-    {isSource && <Handle type="source" position={Position.Right} className={`!bg-${color}-500 !w-1.5 !h-1.5 !-right-0.5`} />}
+
+    {/* Label */}
+    <div className="px-2 py-1.5 flex-1 font-bold font-mono leading-tight tracking-wide min-h-[24px] flex items-center">
+      {data.label || label}
+    </div>
+
+    {/* Right Handle (Source) */}
+    {isSource && (
+      <div className="absolute -right-1.5 flex items-center h-full z-10">
+        <div className="w-2 h-2 rounded-full bg-white shadow-sm"></div>
+        <Handle type="source" position={Position.Right} className="!w-3 !h-3 !border-2 !border-white opacity-0 hover:opacity-100" />
+      </div>
+    )}
   </div>
 );
 
