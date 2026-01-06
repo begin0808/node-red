@@ -1,12 +1,10 @@
 import React, { useState, useCallback, useRef, useMemo, useEffect } from 'react';
 import {
-  Box, Play, Layout, BookOpen, ArrowRight, Cpu, Menu, Settings,
-  CheckCircle, Copy, Check, Zap, Info, MousePointer2, Trash2, Plus, AlertTriangle,
-  HelpCircle, X, Code2, Sparkles, Terminal, Globe, Wifi, FileText, LayoutTemplate,
-  ExternalLink, Clock, Edit3, Mail, Smartphone, MousePointerClick, Type, Gauge,
-  Server, ArrowLeftRight, Braces, Download, Image as ImageIcon, Table, Brain, MessageCircle,
-  GraduationCap, Layers, Bot, Smile, Image, ToggleLeft, Sliders, ChevronDown, PieChart, PenTool,
-  FormInput, Eye, Mic, Palette, List, SlidersHorizontal, GitBranch
+  Play, Square, Settings, Database, MessageSquare, Cloud, Command,
+  Trash2, X, Maximize2, Minimize2, MoreVertical,
+  MousePointer2, Hand, ZoomIn, ZoomOut, CheckCircle2,
+  ChevronRight, ChevronDown, List, Copy, Search, SlidersHorizontal,
+  CloudLightning, Smartphone, FileJson, Gauge, GitBranch, Upload
 } from 'lucide-react';
 
 // --- React Flow Imports (本機版已啟用) ---
@@ -121,28 +119,28 @@ const TUTORIALS: TutorialData[] = [
     title: '1-1. 認識 Node-RED',
     level: 'foundation',
     description: '了解流程導向編程 (FBP) 的核心概念與優勢。',
-    content: `# 什麼是 Node-RED？
+    content: `# 什麼是 Node - RED？
 
-Node-RED 是由 IBM 開發的視覺化開發工具，專為物聯網 (IoT) 設計，但其應用已遠超於此。
+Node - RED 是由 IBM 開發的視覺化開發工具，專為物聯網(IoT) 設計，但其應用已遠超於此。
 
 ![Concept](/tutorials/concept.png)
 
-## 為什麼選擇 Node-RED？
+## 為什麼選擇 Node - RED？
 
-我們將傳統程式開發與 Node-RED 進行比較：
+我們將傳統程式開發與 Node - RED 進行比較：
 
-| 特性 | 傳統編程 (Python/JS) | Node-RED |
-| :--- | :--- | :--- |
-| **開發方式** | 撰寫文字代碼 | 拖拉節點與連線 |
-| **學習曲線** | 較陡峭 | 平緩直觀 |
-| **除錯難度** | 需檢視 Log | 可視化數據流 |
-| **適合場景** | 複雜演算法 | 系統整合、API 串接 |
+| 特性 | 傳統編程(Python / JS) | Node - RED |
+| : --- | : --- | : --- |
+| ** 開發方式 ** | 撰寫文字代碼 | 拖拉節點與連線 |
+| ** 學習曲線 ** | 較陡峭 | 平緩直觀 |
+| ** 除錯難度 ** | 需檢視 Log | 可視化數據流 |
+| ** 適合場景 ** | 複雜演算法 | 系統整合、API 串接 |
 
 ## 核心三要素
 
-1.  **Nodes (節點)**：預先寫好的程式積木（如輸入、處理、輸出）。
-2.  **Flows (流程)**：節點之間的連線，代表數據的流向。
-3.  **Messages (訊息)**：在節點間傳遞的 JSON 物件 (msg)。`,
+1. ** Nodes(節點) **：預先寫好的程式積木（如輸入、處理、輸出）。
+2. ** Flows(流程) **：節點之間的連線，代表數據的流向。
+3. ** Messages(訊息) **：在節點間傳遞的 JSON 物件(msg)。`,
     solutionFlow: `[]`
   },
   {
@@ -150,20 +148,20 @@ Node-RED 是由 IBM 開發的視覺化開發工具，專為物聯網 (IoT) 設�
     title: '1-2. 環境建置與安裝',
     level: 'foundation',
     description: 'Windows/Mac/Linux 安裝指南與環境設定。',
-    content: `# Node-RED 安裝指南
+    content: `# Node - RED 安裝指南
 
-本章節將引導您在個人電腦 (Windows/Mac/Linux) 上建置開發環境。
+本章節將引導您在個人電腦(Windows / Mac / Linux) 上建置開發環境。
 
 ## 1. 安裝 Node.js
 
-Node-RED 需要 Node.js 執行環境。
+Node - RED 需要 Node.js 執行環境。
 
-* **官方下載**：前往 [Node.js 官網 (nodejs.org)](https://nodejs.org/en/)
-* **建議版本**：LTS (長期支援版)
+* ** 官方下載 **：前往[Node.js 官網(nodejs.org)](https://nodejs.org/en/)
+  * ** 建議版本 **：LTS(長期支援版)
 
-## 2. 安裝 Node-RED
+## 2. 安裝 Node - RED
 
-開啟終端機 (Terminal) 輸入指令：
+開啟終端機(Terminal) 輸入指令：
 
 \`\`\`bash
 # Windows
@@ -298,7 +296,18 @@ Node-RED 的編輯器主要分為三個區域：
 
 ![Hello World Flow](/tutorials/p1-1_flow.png)
 
-目標：手動觸發訊號，並在除錯視窗觀察結果。\n\n\n\n## 實作環境與材料\n\n* **硬體**：電腦 (PC/Mac/Linux)\n* **軟體**：Node-RED (預設安裝)\n* **所需節點**：\n    * \`Inject\` (輸入)\n    * \`Debug\` (輸出)\n\n## 實作步驟\n\n1.  從左側拖曳 \`inject\` 節點。\n2.  拖曳 \`debug\` 節點。\n3.  將兩者連線。\n4.  點擊 Inject 按鈕觸發。\n5.  觀察右側的 **Debug 視窗**。\n\n\n\n## 數據結構\n\n| 屬性 | 說明 |\n| :--- | :--- |\n| **msg.payload** | 主要負載資料 (預設為時間戳記) |\n| **msg.topic** | 主題標籤 (可選) |`,
+目標：手動觸發訊號，並在除錯視窗觀察結果。\n\n\n\n## 實作環境與材料\n\n* **硬體**：電腦 (PC/Mac/Linux)\n* **軟體**：Node-RED (預設安裝)\n* **所需節點**：\n    * \`Inject\` (輸入)\n    * \`Debug\` (輸出)\n\n
+## 實作步驟
+
+1.  從左側拖曳 \`inject\` 節點。
+2.  拖曳 \`debug\` 節點。
+3.  將兩者連線。
+4.  點擊 Inject 按鈕觸發。
+5.  觀察右側的 **Debug 視窗**。
+
+> **提示**：您可以直接複製下方的代碼，點擊模擬器右上角的 **[Import]** 按鈕匯入執行。
+
+## 數據結構\n\n| 屬性 | 說明 |\n| :--- | :--- |\n| **msg.payload** | 主要負載資料 (預設為時間戳記) |\n| **msg.topic** | 主題標籤 (可選) |`,
     solutionFlow: `[{"id":"n1","type":"inject","name":"發送訊息","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"Hello Node-RED","payloadType":"str","x":140,"y":100,"wires":[["n2"]]},{"id":"n2","type":"debug","name":"日誌輸出","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":340,"y":100,"wires":[]}]`
   },
   {
@@ -394,7 +403,7 @@ IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n
     level: 'advanced',
     description: '讀取 CSV 檔案並轉換格式繪製圖表。',
     content: `# 數據 ETL (擷取、轉換、載入)\n\n處理傳統產業常見的 CSV 報表，將靜態檔案轉為動態圖表。\n\n\n\n## 實作環境與材料\n\n* **資料來源**：範例 .csv 檔案 (包含時間、數值等欄位)\n* **所需節點**：\n    * \`file in\` (讀取檔案)\n    * \`csv\` (解析格式)\n    * \`ui_chart\` (繪圖)\n\n## 實作步驟\n\n1.  使用 \`file in\` 或 Inject 模擬 CSV 字串。\n2.  使用 \`csv\` 節點解析為 JavaScript 物件。\n3.  使用 \`change\` 節點將欄位對應到圖表所需格式 (Topic/Payload)。\n4.  連接 Dashboard 圖表顯示。\n\n`,
-    solutionFlow: `[{"id":"t9_inj","type":"inject","name":"模擬 CSV","props":[{"p":"payload"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"Item,Value\\nA,10\\nB,20","payloadType":"str","x":180,"y":920,"wires":[["t9_csv"]]},{"id":"t9_csv","type":"csv","name":"解析 CSV","sep":",","hdrin":true,"hdrout":"none","multi":"one","ret":"\\n","temp":"","skip":"0","strings":true,"include_empty_strings":"","include_null_values":"","x":380,"y":920,"wires":[["t9_change"]]},{"id":"t9_change","type":"change","name":"格式轉換","rules":[{"t":"set","p":"topic","pt":"msg","to":"payload.Item","tot":"msg"},{"t":"set","p":"payload","pt":"msg","to":"payload.Value","tot":"msg"}],"action":"","property":"","from":"","to":"","reg":false,"x":560,"y":920,"wires":[["t9_chart"]]},{"id":"t9_chart","type":"ui_chart","name":"圖表","group":"g1","order":0,"width":0,"height":0,"label":"數據","chartType":"bar","legend":"false","xformat":"HH:mm:ss","interpolate":"linear","nodata":"","dot":false,"ymin":"","ymax":"","removeOlder":1,"removeOlderPoints":"","removeOlderUnit":"3600","cutout":0,"useOneColor":false,"useUTC":false,"colors":["#1f77b4"],"outputs":1,"useDifferentColor":false,"className":"","x":740,"y":920,"wires":[[]]}]`
+    solutionFlow: `[{"id":"t9_inj","type":"inject","name":"模擬 CSV","props":[{"p":"payload"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"Item,Value\\nA,10\\nB,20","payloadType":"str","x":180,"y":920,"wires":[["t9_csv"]]},{"id":"t9_csv","type":"csv","name":"解析 CSV","sep":",","hdrin":true,"hdrout":"none","multi":"one","ret":"\\n","temp":"","skip":"0","strings":true,"include_empty_strings":"","include_null_values":"","x":380,"y":920,"wires":[["t9_change"]]},{"id":"t9_change","type":"change","name":"格式轉換","rules":[{"t":"set","p":"topic","pt":"msg","to":"payload.Item","tot":"msg"},{"t":"set","p":"payload","pt":"msg","to":"payload.Item","tot":"msg"}],"action":"","property":"","from":"","to":"","reg":false,"x":560,"y":920,"wires":[["t9_chart"]]},{"id":"t9_chart","type":"ui_chart","name":"圖表","group":"g1","order":0,"width":0,"height":0,"label":"數據","chartType":"bar","legend":"false","xformat":"HH:mm:ss","interpolate":"linear","nodata":"","dot":false,"ymin":"","ymax":"","removeOlder":1,"removeOlderPoints":"","removeOlderUnit":"3600","cutout":0,"useOneColor":false,"useUTC":false,"colors":["#1f77b4"],"outputs":1,"useDifferentColor":false,"className":"","x":740,"y":920,"wires":[[]]}]`
   },
 
   // --- 5. AI 智慧應用 (AI Applications) ---
@@ -581,7 +590,7 @@ const SimpleMarkdown: React.FC<{ content: string }> = ({ content }) => {
       {lines.map((line, index) => {
         const trimmed = line.trim();
         if (trimmed.startsWith('# ')) return <h1 key={index} className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 mt-8 mb-4 border-b border-slate-700 pb-2">{trimmed.substring(2)}</h1>;
-        if (trimmed.startsWith('## ')) return <h2 key={index} className="text-xl font-bold text-cyan-100 mt-6 mb-3 flex items-center gap-2"><Zap className="w-4 h-4 text-yellow-400 fill-yellow-400" /> {trimmed.substring(3)}</h2>;
+        if (trimmed.startsWith('## ')) return <h2 key={index} className="text-xl font-bold text-cyan-100 mt-6 mb-3 flex items-center gap-2"><CloudLightning className="w-4 h-4 text-yellow-400 fill-yellow-400" /> {trimmed.substring(3)}</h2>;
         if (trimmed.startsWith('### ')) return <h3 key={index} className="text-lg font-bold text-white mt-4 mb-2 border-l-4 border-cyan-500 pl-2">{trimmed.substring(4)}</h3>;
 
         // 圖片佔位符處理 -> 升級為 MockWindow 視覺化元件
@@ -683,7 +692,7 @@ const Navbar: React.FC<{ currentView: ViewState; setView: (v: ViewState) => void
           onClick={() => setView('home')}
         >
           <div className="relative">
-            <Box className="w-8 h-8 text-cyan-400 relative z-10" />
+            <Square className="w-8 h-8 text-cyan-400 relative z-10" />
             <div className="absolute inset-0 bg-cyan-400 blur-lg opacity-50 group-hover:opacity-100 transition duration-500"></div>
           </div>
           <div className="flex flex-col md:flex-row md:items-end gap-0 md:gap-2">
@@ -694,9 +703,9 @@ const Navbar: React.FC<{ currentView: ViewState; setView: (v: ViewState) => void
         </div>
 
         <div className="flex gap-2 text-sm overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
-          <NavButton view="foundation" label="入門學習" icon={GraduationCap} />
-          <NavButton view="projects" label="專題教學" icon={Layers} />
-          <NavButton view="ai" label="AI智慧應用" icon={Brain} />
+          <NavButton view="foundation" label="入門學習" icon={Database} />
+          <NavButton view="projects" label="專題教學" icon={MessageSquare} />
+          <NavButton view="ai" label="AI智慧應用" icon={Cloud} />
 
           <button
             onClick={() => setView('simulator')}
@@ -738,7 +747,7 @@ const Home: React.FC<{ setView: (v: ViewState) => void }> = ({ setView }) => {
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <button onClick={() => setView('foundation')} className="group relative bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)] flex items-center justify-center gap-2">
-              開始入門學習 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              開始入門學習 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             <button onClick={() => setView('simulator')} className="bg-slate-800/50 hover:bg-slate-700/50 border border-slate-700 hover:border-slate-600 backdrop-blur-md text-slate-200 font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 flex items-center justify-center gap-2">
               <Play className="w-5 h-5" /> 啟動模擬器
@@ -751,7 +760,7 @@ const Home: React.FC<{ setView: (v: ViewState) => void }> = ({ setView }) => {
       <div className="py-16 px-8 bg-slate-900/50 border-t border-slate-800">
         <div className="max-w-4xl mx-auto">
           <h3 className="text-2xl font-bold text-white mb-8 text-center flex items-center justify-center gap-2">
-            <HelpCircle className="w-6 h-6 text-yellow-400" /> 常見問題 (FAQ)
+            <Command className="w-6 h-6 text-yellow-400" /> 常見問題 (FAQ)
           </h3>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-slate-800 p-6 rounded-lg border border-slate-700">
@@ -826,7 +835,7 @@ const Tutorial: React.FC<{ category: ViewState }> = ({ category }) => {
         : 'bg-transparent border-transparent text-slate-400 hover:bg-slate-800 hover:text-slate-200'
         }`}
     >
-      <CheckCircle className={`w-4 h-4 flex-shrink-0 ${selectedTutorial.id === t.id ? 'opacity-100' : 'opacity-30'}`} />
+      <CheckCircle2 className={`w-4 h-4 flex-shrink-0 ${selectedTutorial.id === t.id ? 'opacity-100' : 'opacity-30'}`} />
       <span className="truncate">{t.title.split('. ')[1] || t.title}</span>
     </button>
   );
@@ -837,7 +846,7 @@ const Tutorial: React.FC<{ category: ViewState }> = ({ category }) => {
       <div className="w-72 bg-slate-900 border-r border-slate-800 overflow-y-auto hidden md:block flex-shrink-0 custom-scrollbar">
         <div className="p-4 border-b border-slate-800 sticky top-0 bg-slate-900/95 backdrop-blur z-10">
           <h3 className="font-bold text-slate-200 flex items-center gap-2">
-            <Menu className="w-4 h-4 text-cyan-400" />
+            <List className="w-4 h-4 text-cyan-400" />
             {category === 'foundation' ? '入門學習目錄' : category === 'projects' ? '專題實作目錄' : 'AI 應用目錄'}
           </h3>
         </div>
@@ -909,7 +918,7 @@ const Tutorial: React.FC<{ category: ViewState }> = ({ category }) => {
                     <span className="text-slate-400 text-xs font-mono ml-2">solution.json</span>
                   </div>
                   <button onClick={handleCopy} className="flex items-center gap-1.5 text-xs font-medium text-cyan-400 hover:text-cyan-300 bg-cyan-950/30 hover:bg-cyan-900/50 px-3 py-1.5 rounded-md transition border border-cyan-900">
-                    {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />} {copied ? '已複製' : '複製代碼'}
+                    {copied ? <CheckCircle2 className="w-3 h-3" /> : <Copy className="w-3 h-3" />} {copied ? '已複製' : '複製代碼'}
                   </button>
                 </div>
                 <div className="p-4 overflow-x-auto custom-scrollbar bg-slate-950/50">
@@ -918,7 +927,7 @@ const Tutorial: React.FC<{ category: ViewState }> = ({ category }) => {
                   </code>
                 </div>
                 <div className="bg-slate-900/50 px-4 py-2 text-slate-500 text-xs border-t border-slate-800/50 flex items-center gap-2">
-                  <Info className="w-3 h-3" /> 提示：複製上方代碼，在 Node-RED 介面中按 Ctrl+I (Import) 貼上。
+                  <Command className="w-3 h-3" /> 提示：複製上方代碼，點擊模擬器右上角的 **[Import]** 按鈕匯入執行。
                 </div>
               </div>
             )}
@@ -992,21 +1001,21 @@ const BaseNode = ({ label, icon: Icon, color = 'slate', isSource, isTarget, onIn
 const InjectNode = (props: any) => <BaseNode {...props} label="timestamp" color="blue" isSource={true} onInject={props.data.onInject} />;
 const DebugNode = (props: any) => <BaseNode {...props} label="msg.payload" icon={Cpu} color="green" isTarget={true} />;
 // Function
-const FunctionNode = (props: any) => <BaseNode {...props} label="function" icon={Code2} color="yellow" isSource={true} isTarget={true} />;
+const FunctionNode = (props: any) => <BaseNode {...props} label="function" icon={Command} color="yellow" isSource={true} isTarget={true} />;
 const DelayNode = (props: any) => <BaseNode {...props} label="delay 2s" icon={Clock} color="orange" isSource={true} isTarget={true} />;
 const ChangeNode = (props: any) => <BaseNode {...props} label="change" icon={Edit3} color="yellow" isSource={true} isTarget={true} />;
-const TemplateNode = (props: any) => <BaseNode {...props} label="template" icon={LayoutTemplate} color="slate" isSource={true} isTarget={true} />;
+const TemplateNode = (props: any) => <BaseNode {...props} label="template" icon={FileJson} color="slate" isSource={true} isTarget={true} />;
 // Network
-const MqttNode = (props: any) => <BaseNode {...props} label="mqtt out" icon={Wifi} color="red" isSource={true} isTarget={true} />;
-const HttpRequestNode = (props: any) => <BaseNode {...props} label="http req" icon={Globe} color="slate" isSource={true} isTarget={true} />;
+const MqttNode = (props: any) => <BaseNode {...props} label="mqtt out" icon={CloudLightning} color="red" isSource={true} isTarget={true} />;
+const HttpRequestNode = (props: any) => <BaseNode {...props} label="http req" icon={Cloud} color="slate" isSource={true} isTarget={true} />;
 const HttpInNode = (props: any) => <BaseNode {...props} label="http in" icon={Server} color="slate" isSource={true} onInject={props.data.onInject} />;
 const HttpResponseNode = (props: any) => <BaseNode {...props} label="http res" icon={ArrowLeftRight} color="slate" isTarget={true} />;
 // Data
-const CsvNode = (props: any) => <BaseNode {...props} label="csv" icon={FileText} color="orange" isSource={true} isTarget={true} />;
-const JsonNode = (props: any) => <BaseNode {...props} label="json" icon={Braces} color="orange" isSource={true} isTarget={true} />;
+const CsvNode = (props: any) => <BaseNode {...props} label="csv" icon={FileJson} color="orange" isSource={true} isTarget={true} />;
+const JsonNode = (props: any) => <BaseNode {...props} label="json" icon={FileJson} color="orange" isSource={true} isTarget={true} />;
 // Social
-const EmailNode = (props: any) => <BaseNode {...props} label="email" icon={Mail} color="pink" isTarget={true} />;
-const LineNode = (props: any) => <BaseNode {...props} label="line bot" icon={MessageCircle} color="green" isTarget={true} />;
+const EmailNode = (props: any) => <BaseNode {...props} label="email" icon={Smartphone} color="pink" isTarget={true} />;
+const LineNode = (props: any) => <BaseNode {...props} label="line bot" icon={MessageSquare} color="green" isTarget={true} />;
 // AI (Updated: Pink/Purple mix)
 const ChatGPTNode = (props: any) => <BaseNode {...props} label="chatgpt" icon={Bot} color="pink" isSource={true} isTarget={true} />;
 const VisionNode = (props: any) => <BaseNode {...props} label="vision ai" icon={Eye} color="pink" isSource={true} isTarget={true} />;
@@ -1015,11 +1024,11 @@ const SentimentNode = (props: any) => <BaseNode {...props} label="sentiment" ico
 const DalleNode = (props: any) => <BaseNode {...props} label="dall-e" icon={Image} color="pink" isSource={true} isTarget={true} />;
 
 // Dashboard (Updated: Cyan/Blue)
-const UiButtonNode = (props: any) => <BaseNode {...props} label="button" icon={MousePointerClick} color="cyan" isSource={true} onInject={props.data.onInject} />;
+const UiButtonNode = (props: any) => <BaseNode {...props} label="button" icon={MousePointer2} color="cyan" isSource={true} onInject={props.data.onInject} />;
 const UiTextNode = (props: any) => <BaseNode {...props} label="text" icon={Type} color="cyan" isTarget={true} />;
 const UiGaugeNode = (props: any) => <BaseNode {...props} label="gauge" icon={Gauge} color="cyan" isTarget={true} />;
 const UiSwitchNode = (props: any) => <BaseNode {...props} label="switch" icon={ToggleLeft} color="cyan" isSource={true} onInject={props.data.onInject} />;
-const UiSliderNode = (props: any) => <BaseNode {...props} label="slider" icon={Sliders} color="cyan" isSource={true} onInject={props.data.onInject} />;
+const UiSliderNode = (props: any) => <BaseNode {...props} label="slider" icon={SlidersHorizontal} color="cyan" isSource={true} onInject={props.data.onInject} />;
 const UiDropdownNode = (props: any) => <BaseNode {...props} label="dropdown" icon={ChevronDown} color="cyan" isSource={true} onInject={props.data.onInject} />;
 const UiInputNode = (props: any) => <BaseNode {...props} label="text input" icon={FormInput} color="cyan" isSource={true} onInject={props.data.onInject} />;
 const UiChartNode = (props: any) => <BaseNode {...props} label="chart" icon={PieChart} color="cyan" isTarget={true} />;
@@ -1098,7 +1107,9 @@ const RealSimulatorCanvas = () => {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const [tab, setTab] = useState<'debug' | 'props'>('debug');
-
+  // Import Feature State
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [importJson, setImportJson] = useState('');
   const { screenToFlowPosition } = useReactFlow();
 
   const onConnect = useCallback(
@@ -1386,6 +1397,9 @@ const RealSimulatorCanvas = () => {
           <MiniMap className="bg-slate-800 border-slate-700" nodeColor="#06b6d4" />
         </ReactFlow>
         <div className="absolute top-4 right-4 z-10 flex gap-2">
+          <button onClick={() => setIsImportModalOpen(true)} className="flex items-center gap-1 bg-cyan-900/80 hover:bg-cyan-800 text-white px-3 py-1.5 rounded-md text-xs backdrop-blur-sm border border-cyan-700 transition">
+            <Upload className="w-3 h-3" /> Import
+          </button>
           <button onClick={clearCanvas} className="flex items-center gap-1 bg-red-900/80 hover:bg-red-800 text-white px-3 py-1.5 rounded-md text-xs backdrop-blur-sm border border-red-700 transition">
             <Trash2 className="w-3 h-3" /> 清空畫布
           </button>
@@ -1746,6 +1760,37 @@ function App() {
         {currentView === 'ai' && <Tutorial category="ai" />}
         {currentView === 'simulator' && <Simulator />}
       </main>
+      {/* Import Modal */}
+      {isImportModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center backdrop-blur-sm">
+          <div className="bg-slate-800 border border-slate-700 p-4 rounded-lg shadow-2xl w-[500px] max-w-full">
+            <h3 className="text-white font-bold mb-2 flex items-center gap-2">
+              <Upload className="w-4 h-4" /> Import Flow JSON
+            </h3>
+            <p className="text-xs text-slate-400 mb-2">請將 Node-RED 流程代碼 (JSON) 貼上至此處：</p>
+            <textarea
+              className="w-full h-64 bg-slate-900 text-slate-300 text-xs font-mono p-2 rounded border border-slate-700 outline-none focus:border-cyan-500 mb-4"
+              value={importJson}
+              onChange={e => setImportJson(e.target.value)}
+              placeholder='[{"id":"...", "type":"...", ...}]'
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setIsImportModalOpen(false)}
+                className="px-3 py-1.5 text-xs text-slate-300 hover:bg-slate-700 rounded transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleImport}
+                className="px-3 py-1.5 text-xs bg-cyan-600 hover:bg-cyan-500 text-white rounded transition shadow-lg shadow-cyan-900/20"
+              >
+                Import
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
