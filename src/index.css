@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 自定義樣式：隱藏捲軸但保留功能 (選擇性) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* 確保 html 和 body 佔滿高度 */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  background-color: #f9fafb; /* gray-50 */
+}
