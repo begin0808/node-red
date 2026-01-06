@@ -1338,6 +1338,65 @@ const RealSimulatorCanvas = () => {
 
   const runFlowEngine = (id: string, data: any) => executeFlow(id);
 
+  // Handle Import JSON
+  const handleImport = () => {
+    try {
+      const flows = JSON.parse(importJson);
+      if (!Array.isArray(flows)) throw new Error('Invalid Node-RED Flow');
+
+      const newNodes: Node[] = [];
+      const newEdges: Edge[] = [];
+
+      flows.forEach((n: any) => {
+        if (!n.type || n.type === 'tab') return; // Skip config nodes or tabs
+
+        // Map Node-RED type to React Flow type if needed
+        let type = n.type;
+        if (type === 'function') type = 'function'; // Ensure consistency
+
+        // Create Node
+        const newNode: Node = {
+          id: n.id,
+          type: type, // Ensure this type exists in nodeTypes
+          position: { x: parseFloat(n.x) || 0, y: parseFloat(n.y) || 0 },
+          data: {
+            // @ts-ignore
+            img: NODE_STYLES[type]?.img || '',
+            ...n
+          }
+        };
+        newNodes.push(newNode);
+
+        // Create Edges (Wires)
+        if (n.wires && Array.isArray(n.wires)) {
+          n.wires.forEach((wireGroup: string[], outputIndex: number) => {
+            wireGroup.forEach((targetId: string) => {
+              newEdges.push({
+                id: `e-${n.id}-${targetId}-${outputIndex}`,
+                source: n.id,
+                target: targetId,
+              });
+            });
+          });
+        }
+      });
+
+      setNodes(newNodes);
+      setEdges(newEdges);
+      setIsImportModalOpen(false);
+      setImportJson('');
+      setLogs(prev => [...prev, {
+        id: Date.now().toString(),
+        timestamp: new Date().toLocaleTimeString(),
+        nodeName: 'System',
+        payload: `Successfully imported ${newNodes.length} nodes.`
+      }]);
+
+    } catch (e) {
+      alert('匯入失敗：請檢查 JSON 格式是否正確。');
+    }
+  };
+
   const onDrop = useCallback(
     (event: React.DragEvent) => {
       event.preventDefault();
@@ -1523,6 +1582,37 @@ const RealSimulatorCanvas = () => {
           )}
         </div>
       </div>
+      {/* Import Modal */}
+      {isImportModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center backdrop-blur-sm">
+          <div className="bg-slate-800 border border-slate-700 p-4 rounded-lg shadow-2xl w-[500px] max-w-full">
+            <h3 className="text-white font-bold mb-2 flex items-center gap-2">
+              <Upload className="w-4 h-4" /> Import Flow JSON
+            </h3>
+            <p className="text-xs text-slate-400 mb-2">請將 Node-RED 流程代碼 (JSON) 貼上至此處：</p>
+            <textarea
+              className="w-full h-64 bg-slate-900 text-slate-300 text-xs font-mono p-2 rounded border border-slate-700 outline-none focus:border-cyan-500 mb-4"
+              value={importJson}
+              onChange={e => setImportJson(e.target.value)}
+              placeholder='[{"id":"...", "type":"...", ...}]'
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setIsImportModalOpen(false)}
+                className="px-3 py-1.5 text-xs text-slate-300 hover:bg-slate-700 rounded transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleImport}
+                className="px-3 py-1.5 text-xs bg-cyan-600 hover:bg-cyan-500 text-white rounded transition shadow-lg shadow-cyan-900/20"
+              >
+                Import
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -1760,38 +1850,9 @@ function App() {
         {currentView === 'ai' && <Tutorial category="ai" />}
         {currentView === 'simulator' && <Simulator />}
       </main>
-      {/* Import Modal */}
-      {isImportModalOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center backdrop-blur-sm">
-          <div className="bg-slate-800 border border-slate-700 p-4 rounded-lg shadow-2xl w-[500px] max-w-full">
-            <h3 className="text-white font-bold mb-2 flex items-center gap-2">
-              <Upload className="w-4 h-4" /> Import Flow JSON
-            </h3>
-            <p className="text-xs text-slate-400 mb-2">請將 Node-RED 流程代碼 (JSON) 貼上至此處：</p>
-            <textarea
-              className="w-full h-64 bg-slate-900 text-slate-300 text-xs font-mono p-2 rounded border border-slate-700 outline-none focus:border-cyan-500 mb-4"
-              value={importJson}
-              onChange={e => setImportJson(e.target.value)}
-              placeholder='[{"id":"...", "type":"...", ...}]'
-            />
-            <div className="flex justify-end gap-2">
-              <button
-                onClick={() => setIsImportModalOpen(false)}
-                className="px-3 py-1.5 text-xs text-slate-300 hover:bg-slate-700 rounded transition"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleImport}
-                className="px-3 py-1.5 text-xs bg-cyan-600 hover:bg-cyan-500 text-white rounded transition shadow-lg shadow-cyan-900/20"
-              >
-                Import
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
+  );
+}
   );
 }
 
