@@ -547,7 +547,7 @@ IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n
     * 分數 > 0.5 (正面)：自動回覆感謝。
     * 分數 < -0.5 (負面)：發送 LINE 通知給經理處理。
 4.  **顯示結果**：在 Dashboard 顯示分析結果。`,
-    solutionFlow: `[{"id":"nlp_in","type":"inject","name":"客戶留言","payload":"這產品太棒了，我很喜歡！","x":150,"y":1300,"wires":[["nlp_func"]]},{"id":"nlp_func","type":"function","name":"模擬 NLP 分析","func":"// 模擬 API 回傳\nvar score = 0.8; // 正面\nmsg.payload = { score: score, sentiment: 'positive' };\nreturn msg;","x":350,"y":1300,"wires":[["nlp_switch"]]},{"id":"nlp_switch","type":"switch","name":"情緒分流","property":"payload.score","rules":[{"t":"gt","v":"0.5"},{"t":"lt","v":"-0.5"}],"x":550,"y":1300,"wires":[["nlp_pos"],["nlp_neg"]]},{"id":"nlp_pos","type":"debug","name":"回覆感謝","x":750,"y":1280,"wires":[]},{"id":"nlp_neg","type":"debug","name":"通知經理","x":750,"y":1320,"wires":[]}]`
+    solutionFlow: `[{"id":"nlp_in","type":"inject","name":"客戶留言","payload":"這產品太棒了，我很喜歡！","x":150,"y":1300,"wires":[["nlp_func"]]},{"id":"nlp_func","type":"function","name":"模擬 NLP 分析","func":"// 模擬 API 回傳\\nvar score = 0.8; // 正面\\nmsg.payload = { score: score, sentiment: 'positive' };\\nreturn msg;","x":350,"y":1300,"wires":[["nlp_switch"]]},{"id":"nlp_switch","type":"switch","name":"情緒分流","property":"payload.score","rules":[{"t":"gt","v":"0.5"},{"t":"lt","v":"-0.5"}],"x":550,"y":1300,"wires":[["nlp_pos"],["nlp_neg"]]},{"id":"nlp_pos","type":"debug","name":"回覆感謝","x":750,"y":1280,"wires":[]},{"id":"nlp_neg","type":"debug","name":"通知經理","x":750,"y":1320,"wires":[]}]`
   },
   {
     id: 'ai-5',
