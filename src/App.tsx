@@ -121,7 +121,28 @@ const TUTORIALS: TutorialData[] = [
     title: '1-1. 認識 Node-RED',
     level: 'foundation',
     description: '了解流程導向編程 (FBP) 的核心概念與優勢。',
-    content: `# 什麼是 Node-RED？\n\nNode-RED 是由 IBM 開發的視覺化開發工具，專為物聯網 (IoT) 設計，但其應用已遠超於此。\n\n\n\n## 為什麼選擇 Node-RED？\n\n我們將傳統程式開發與 Node-RED 進行比較：\n\n| 特性 | 傳統編程 (Python/JS) | Node-RED |\n| :--- | :--- | :--- |\n| **開發方式** | 撰寫文字代碼 | 拖拉節點與連線 |\n| **學習曲線** | 較陡峭 | 平緩直觀 |\n| **除錯難度** | 需檢視 Log | 可視化數據流 |\n| **適合場景** | 複雜演算法 | 系統整合、API 串接 |\n\n## 核心三要素\n\n1.  **Nodes (節點)**：預先寫好的程式積木（如輸入、處理、輸出）。\n2.  **Flows (流程)**：節點之間的連線，代表數據的流向。\n3.  **Messages (訊息)**：在節點間傳遞的 JSON 物件 (msg)。`,
+    content: `# 什麼是 Node-RED？
+
+Node-RED 是由 IBM 開發的視覺化開發工具，專為物聯網 (IoT) 設計，但其應用已遠超於此。
+
+![Concept](/tutorials/concept.png)
+
+## 為什麼選擇 Node-RED？
+
+我們將傳統程式開發與 Node-RED 進行比較：
+
+| 特性 | 傳統編程 (Python/JS) | Node-RED |
+| :--- | :--- | :--- |
+| **開發方式** | 撰寫文字代碼 | 拖拉節點與連線 |
+| **學習曲線** | 較陡峭 | 平緩直觀 |
+| **除錯難度** | 需檢視 Log | 可視化數據流 |
+| **適合場景** | 複雜演算法 | 系統整合、API 串接 |
+
+## 核心三要素
+
+1.  **Nodes (節點)**：預先寫好的程式積木（如輸入、處理、輸出）。
+2.  **Flows (流程)**：節點之間的連線，代表數據的流向。
+3.  **Messages (訊息)**：在節點間傳遞的 JSON 物件 (msg)。`,
     solutionFlow: `[]`
   },
   {
@@ -129,7 +150,44 @@ const TUTORIALS: TutorialData[] = [
     title: '1-2. 環境建置與安裝',
     level: 'foundation',
     description: 'Windows/Mac/Linux 安裝指南與環境設定。',
-    content: `# Node-RED 安裝指南\n\n本章節將引導您在個人電腦 (Windows/Mac/Linux) 上建置開發環境。\n\n\n\n## 1. 安裝 Node.js\n\nNode-RED 需要 Node.js 執行環境。\n\n* **官方下載**：前往 [Node.js 官網 (nodejs.org)](https://nodejs.org/en/)\n* **建議版本**：LTS (長期支援版)\n\n## 2. 安裝 Node-RED\n\n開啟終端機 (Terminal) 輸入指令：\n\n\`\`\`bash\n# Windows\nnpm install -g --unsafe-perm node-red\n\n# Mac/Linux\nsudo npm install -g --unsafe-perm node-red\n\`\`\`\n\n## 3. 啟動服務\n\n在終端機輸入 \`node-red\`，看到下方畫面即代表成功：\n\n\n\n打開瀏覽器訪問：**http://localhost:1880**\n\n## 常見問題\n\n| 問題 | 解決方案 |\n| :--- | :--- |\n| **Port 佔用** | 使用 \`node-red -p 1888\` 指定其他 Port |\n| **權限錯誤** | Mac/Linux 請在指令前加 \`sudo\` |\n| **語言設定** | 自動偵測瀏覽器，或修改 \`settings.js\` 強制中文 |`,
+    content: `# Node-RED 安裝指南
+
+本章節將引導您在個人電腦 (Windows/Mac/Linux) 上建置開發環境。
+
+## 1. 安裝 Node.js
+
+Node-RED 需要 Node.js 執行環境。
+
+* **官方下載**：前往 [Node.js 官網 (nodejs.org)](https://nodejs.org/en/)
+* **建議版本**：LTS (長期支援版)
+
+## 2. 安裝 Node-RED
+
+開啟終端機 (Terminal) 輸入指令：
+
+\`\`\`bash
+# Windows
+npm install -g --unsafe-perm node-red
+
+# Mac/Linux
+sudo npm install -g --unsafe-perm node-red
+\`\`\`
+
+## 3. 啟動服務
+
+在終端機輸入 \`node-red\`，看到下方畫面即代表成功：
+
+![Terminal](/tutorials/install.png)
+
+打開瀏覽器訪問：**http://localhost:1880**
+
+## 常見問題
+
+| 問題 | 解決方案 |
+| :--- | :--- |
+| **Port 佔用** | 使用 \`node-red -p 1888\` 指定其他 Port |
+| **權限錯誤** | Mac/Linux 請在指令前加 \`sudo\` |
+| **語言設定** | 自動偵測瀏覽器，或修改 \`settings.js\` 強制中文 |\`,`,
     solutionFlow: `[]`
   },
   {
@@ -137,7 +195,26 @@ const TUTORIALS: TutorialData[] = [
     title: '1-3. 介面導覽與操作',
     level: 'foundation',
     description: '熟悉 Palette、Workspace、Sidebar 三大工作區塊。',
-    content: `# 介面速覽\n\nNode-RED 的編輯器主要分為三個區域：\n\n\n\n## 1. 左側面板 (Palette)\n存放所有可用的節點，依功能分類（Common, Function, Network...）。\n\n## 2. 中央畫布 (Workspace)\n主要的開發區域，您可以在此拖曳節點並進行連線。\n\n## 3. 右側邊欄 (Sidebar)\n包含資訊 (Info)、除錯 (Debug)、儀表板 (Dashboard) 等分頁。\n\n### 常用快捷鍵\n\n* **Ctrl + Enter**：部署 (Deploy)\n* **Ctrl + Click**：多選節點\n* **Double Click**：編輯節點屬性`,
+    content: `# 介面速覽
+
+Node-RED 的編輯器主要分為三個區域：
+
+![Interface](/tutorials/interface.png)
+
+## 1. 左側面板 (Palette)
+存放所有可用的節點，依功能分類（Common, Function, Network...）。
+
+## 2. 中央畫布 (Workspace)
+主要的開發區域，您可以在此拖曳節點並進行連線。
+
+## 3. 右側邊欄 (Sidebar)
+包含資訊 (Info)、除錯 (Debug)、儀表板 (Dashboard) 等分頁。
+
+### 常用快捷鍵
+
+* **Ctrl + Enter**：部署 (Deploy)
+* **Ctrl + Click**：多選節點
+* **Double Click**：編輯節點屬性\`,`,
     solutionFlow: `[]`
   },
   {
@@ -145,7 +222,7 @@ const TUTORIALS: TutorialData[] = [
     title: '1-4. 核心功能節點教學',
     level: 'foundation',
     description: 'Inject, Debug, Function, Switch 等基礎節點的詳細設定與應用。',
-    content: `# 核心功能節點 (Core & Function)\n\n這是 Node-RED 最常用的基礎積木，掌握它們就能解決 80% 的問題。\n\n## 1. Inject (注入)\n**用途**：流程的起點。可手動點擊觸發，或設定定時自動觸發。\n**設定重點**：\n* \`Payload\`：發送的內容 (字串、數字、時間戳)。\n* \`Repeat\`：設定循環時間 (Interval) 或指定時間 (At a specific time)。\n\n[Config: Inject]\n\n## 2. Debug (除錯)\n**用途**：流程的終點。將接收到的訊息顯示在右側的 Debug 視窗。\n**設定重點**：\n* \`Output\`：預設顯示 \`msg.payload\`，也可改為 \`complete msg object\` 查看完整物件。\n\n[Config: Debug]\n\n## 3. Function (處理)\n**用途**：萬能節點。使用 JavaScript 撰寫自定義邏輯。\n**設定重點**：\n* 在代碼區塊中撰寫 JS，最後必須 \`return msg;\`。\n\n[Config: Function]\n\n## 4. Switch (判斷)\n**用途**：邏輯分流。類似程式的 \`if-else\`。\n**設定重點**：\n* 設定屬性 (Property) 通常是 \`msg.payload\`。\n* 新增規則 (Rules)：如 \`> 50\` 走通道 1，\`else\` 走通道 2。\n\n[Config: Switch]\n\n## 5. Change (改變)\n**用途**：修改訊息內容，無需寫程式。\n**設定重點**：\n* \`Set\`：設定屬性值。\n* \`Move\`：移動屬性。\n* \`Delete\`：刪除屬性。\n\n## 6. Delay (延遲)\n**用途**：暫停流程一段時間，或限制訊息通過的頻率 (Rate Limit)。\n**設定重點**：\n* \`Delay msg\`：固定延遲毫秒/秒數。\n* \`Rate Limit\`：限制每秒/每分通過的訊息數量。`,
+    content: `# 核心功能節點(Core & Function) \n\n這是 Node - RED 最常用的基礎積木，掌握它們就能解決 80 % 的問題。\n\n## 1. Inject(注入) \n ** 用途 **：流程的起點。可手動點擊觸發，或設定定時自動觸發。\n ** 設定重點 **：\n * \`Payload\`：發送的內容 (字串、數字、時間戳)。\n* \`Repeat\`：設定循環時間 (Interval) 或指定時間 (At a specific time)。\n\n[Config: Inject]\n\n## 2. Debug (除錯)\n**用途**：流程的終點。將接收到的訊息顯示在右側的 Debug 視窗。\n**設定重點**：\n* \`Output\`：預設顯示 \`msg.payload\`，也可改為 \`complete msg object\` 查看完整物件。\n\n[Config: Debug]\n\n## 3. Function (處理)\n**用途**：萬能節點。使用 JavaScript 撰寫自定義邏輯。\n**設定重點**：\n* 在代碼區塊中撰寫 JS，最後必須 \`return msg;\`。\n\n[Config: Function]\n\n## 4. Switch (判斷)\n**用途**：邏輯分流。類似程式的 \`if-else\`。\n**設定重點**：\n* 設定屬性 (Property) 通常是 \`msg.payload\`。\n* 新增規則 (Rules)：如 \`> 50\` 走通道 1，\`else\` 走通道 2。\n\n[Config: Switch]\n\n## 5. Change (改變)\n**用途**：修改訊息內容，無需寫程式。\n**設定重點**：\n* \`Set\`：設定屬性值。\n* \`Move\`：移動屬性。\n* \`Delete\`：刪除屬性。\n\n## 6. Delay (延遲)\n**用途**：暫停流程一段時間，或限制訊息通過的頻率 (Rate Limit)。\n**設定重點**：\n* \`Delay msg\`：固定延遲毫秒/秒數。\n* \`Rate Limit\`：限制每秒/每分通過的訊息數量。`,
     solutionFlow: `[]`
   },
   {
@@ -179,7 +256,11 @@ const TUTORIALS: TutorialData[] = [
     title: '2-1-1. Hello World',
     level: 'beginner',
     description: '實作您的第一個流程，學習 Inject 與 Debug 的用法。',
-    content: `# 您的第一個流程\n\n目標：手動觸發訊號，並在除錯視窗觀察結果。\n\n\n\n## 實作環境與材料\n\n* **硬體**：電腦 (PC/Mac/Linux)\n* **軟體**：Node-RED (預設安裝)\n* **所需節點**：\n    * \`Inject\` (輸入)\n    * \`Debug\` (輸出)\n\n## 實作步驟\n\n1.  從左側拖曳 \`inject\` 節點。\n2.  拖曳 \`debug\` 節點。\n3.  將兩者連線。\n4.  點擊 Inject 按鈕觸發。\n5.  觀察右側的 **Debug 視窗**。\n\n\n\n## 數據結構\n\n| 屬性 | 說明 |\n| :--- | :--- |\n| **msg.payload** | 主要負載資料 (預設為時間戳記) |\n| **msg.topic** | 主題標籤 (可選) |`,
+    content: `# 您的第一個流程
+
+![Hello World Flow](/tutorials/p1-1_flow.png)
+
+目標：手動觸發訊號，並在除錯視窗觀察結果。\n\n\n\n## 實作環境與材料\n\n* **硬體**：電腦 (PC/Mac/Linux)\n* **軟體**：Node-RED (預設安裝)\n* **所需節點**：\n    * \`Inject\` (輸入)\n    * \`Debug\` (輸出)\n\n## 實作步驟\n\n1.  從左側拖曳 \`inject\` 節點。\n2.  拖曳 \`debug\` 節點。\n3.  將兩者連線。\n4.  點擊 Inject 按鈕觸發。\n5.  觀察右側的 **Debug 視窗**。\n\n\n\n## 數據結構\n\n| 屬性 | 說明 |\n| :--- | :--- |\n| **msg.payload** | 主要負載資料 (預設為時間戳記) |\n| **msg.topic** | 主題標籤 (可選) |`,
     solutionFlow: `[{"id":"n1","type":"inject","name":"發送訊息","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"Hello Node-RED","payloadType":"str","x":140,"y":100,"wires":[["n2"]]},{"id":"n2","type":"debug","name":"日誌輸出","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":340,"y":100,"wires":[]}]`
   },
   {
@@ -205,7 +286,11 @@ const TUTORIALS: TutorialData[] = [
     title: '2-2-1. 模擬氣象站 API',
     level: 'intermediate',
     description: '串接 Open-Meteo API，獲取即時天氣資訊。',
-    content: `# 串接真實數據 API\n\nIoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n\n\n## 實作環境與材料\n\n* **環境**：需連接網際網路 (Internet)\n* **目標服務**：Open-Meteo (免費天氣 API)\n* **所需節點**：\n    * \`HTTP Request\`\n    * \`Debug\` (設定為 complete msg object)\n\n## API 資訊\n\n| 服務 | Open-Meteo |\n| :--- | :--- |\n| **Method** | GET |\n| **URL** | \`https://api.open-meteo.com/v1/forecast?latitude=25.03&longitude=121.56&current_weather=true\` |\n\n## 實作步驟\n\n1.  使用 \`inject\` 作為觸發。\n2.  連接 \`http request\`，貼上 API 網址，Return 設為 Object。\n3.  連接 \`debug\` 觀察 \`msg.payload\` 中的 JSON 物件。\n\n`,
+    content: `# 串接真實數據 API
+
+![Weather API](/tutorials/p2-1_weather.png)
+
+IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n\n\n## 實作環境與材料\n\n* **環境**：需連接網際網路 (Internet)\n* **目標服務**：Open-Meteo (免費天氣 API)\n* **所需節點**：\n    * \`HTTP Request\`\n    * \`Debug\` (設定為 complete msg object)\n\n## API 資訊\n\n| 服務 | Open-Meteo |\n| :--- | :--- |\n| **Method** | GET |\n| **URL** | \`https://api.open-meteo.com/v1/forecast?latitude=25.03&longitude=121.56&current_weather=true\` |\n\n## 實作步驟\n\n1.  使用 \`inject\` 作為觸發。\n2.  連接 \`http request\`，貼上 API 網址，Return 設為 Object。\n3.  連接 \`debug\` 觀察 \`msg.payload\` 中的 JSON 物件。\n\n`,
     solutionFlow: `[{"id":"t4_1","type":"inject","name":"查詢天氣","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":150,"y":300,"wires":[["t4_2"]]},{"id":"t4_2","type":"http request","name":"GET Open-Meteo","method":"GET","ret":"obj","paytoqs":"ignore","url":"https://api.open-meteo.com/v1/forecast?latitude=25.03&longitude=121.56&current_weather=true","tls":"","persist":false,"proxy":"","authType":"","senderr":false,"headers":[],"x":350,"y":300,"wires":[["t4_3"]]},{"id":"t4_3","type":"debug","name":"天氣資訊","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":550,"y":300,"wires":[]}]`
   },
   {
