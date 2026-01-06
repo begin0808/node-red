@@ -669,7 +669,7 @@ const BaseNode = ({ label, icon: Icon, color = 'slate', isSource, isTarget, onIn
   const style = NODE_STYLES[color] || NODE_STYLES['slate'];
 
   return (
-    <div className={`relative min-w-[100px] h-[30px] ${style.bg} border-2 ${style.border} rounded-md shadow-md flex items-center overflow-hidden transition-transform hover:scale-105 active:scale-95`}>
+    <div className={`relative min-w-[100px] max-w-[160px] w-auto h-[30px] ${style.bg} border-2 ${style.border} rounded-md shadow-md flex items-center overflow-hidden transition-transform hover:scale-105 active:scale-95 pr-3`}>
       {/* Target Handle */}
       {isTarget && (
         <div className="absolute -left-2 flex items-center h-full z-20">
@@ -680,21 +680,21 @@ const BaseNode = ({ label, icon: Icon, color = 'slate', isSource, isTarget, onIn
       {/* Icon Section */}
       {onInject ? (
         <div
-          className={`h-full w-8 ${style.iconBg} flex items-center justify-center cursor-pointer hover:brightness-110 z-10 border-r border-white/20`}
+          className={`h-full w-8 ${style.iconBg} flex-shrink-0 flex items-center justify-center cursor-pointer hover:brightness-110 z-10 border-r border-white/20`}
           onClick={(e) => { e.stopPropagation(); onInject(id, data); }}
           title="Click to Trigger"
         >
           <div className="w-3 h-3 bg-white rounded-sm shadow-sm animate-pulse"></div>
         </div>
       ) : (
-        <div className={`h-full w-8 flex items-center justify-center border-r border-white/20 ${style.iconBg}/50`}>
+        <div className={`h-full w-8 flex-shrink-0 flex items-center justify-center border-r border-white/20 ${style.iconBg}/50`}>
           {Icon && <Icon className="w-4 h-4 text-white" />}
         </div>
       )}
 
-      {/* Label Section */}
-      <div className="flex-1 px-2 flex items-center justify-center overflow-hidden">
-        <span className="text-[10px] font-bold text-white font-mono leading-none whitespace-nowrap overflow-hidden text-ellipsis">
+      {/* Label Section - Flexible width, no truncation, smaller font */}
+      <div className="flex-1 px-2 flex items-center justify-start overflow-hidden">
+        <span className="text-[9px] font-bold text-white font-mono leading-none whitespace-nowrap">
           {data.label || label}
         </span>
       </div>
@@ -749,20 +749,20 @@ const UiChartNode = (props: any) => <BaseNode {...props} label="chart" icon={Pie
 const SwitchNode = ({ data, id }: any) => {
   const style = NODE_STYLES['purple'];
   return (
-    <div className={`relative min-w-[100px] h-[30px] ${style.bg} border-2 ${style.border} rounded-md shadow-md flex items-center overflow-hidden transition-transform hover:scale-105 active:scale-95`}>
+    <div className={`relative min-w-[100px] max-w-[160px] w-auto h-[30px] ${style.bg} border-2 ${style.border} rounded-md shadow-md flex items-center overflow-hidden transition-transform hover:scale-105 active:scale-95 pr-3`}>
       {/* Target (Left) */}
       <div className="absolute -left-2 flex items-center h-full z-20">
         <Handle type="target" position={Position.Left} className={`${style.handle} !w-3 !h-3 !border-2 !border-white`} />
       </div>
 
       {/* Icon */}
-      <div className={`h-full w-8 flex items-center justify-center border-r border-white/20 ${style.iconBg}/50`}>
+      <div className={`h-full w-8 flex-shrink-0 flex items-center justify-center border-r border-white/20 ${style.iconBg}/50`}>
         <GitBranch className="w-4 h-4 text-white" />
       </div>
 
       {/* Label */}
-      <div className="flex-1 px-2 flex items-center justify-center overflow-hidden">
-        <span className="text-[10px] font-bold text-white font-mono leading-none whitespace-nowrap overflow-hidden text-ellipsis">
+      <div className="flex-1 px-2 flex items-center justify-start overflow-hidden">
+        <span className="text-[9px] font-bold text-white font-mono leading-none whitespace-nowrap">
           {data.label || 'switch'}
         </span>
       </div>
@@ -1058,8 +1058,8 @@ const RealSimulatorCanvas = () => {
       setNodes((nds) => {
         const typeCount = nds.filter(n => n.type === type).length + 1;
         const rawTitle = NODE_CONFIGS[type]?.title || type;
-        const simplifiedTitle = rawTitle.split(' ')[0];
-        const label = `${simplifiedTitle} ${typeCount}`;
+        // Fix: Use full title instead of only first word
+        const label = `${rawTitle} ${typeCount}`;
 
         const newNode: Node = {
           id: `${type}-${Date.now()}`,
