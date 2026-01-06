@@ -238,7 +238,45 @@ Node-RED 的編輯器主要分為三個區域：
     title: '1-6. 網路與社群通訊節點',
     level: 'foundation',
     description: 'MQTT, HTTP, Email, LINE Bot 等連接外部世界的節點。',
-    content: `# 網路與通訊節點 (Network)\n\n連接外部世界，進行 API 呼叫與通訊。\n\n## 1. HTTP Request (請求)\n**用途**：主動向外部網站或 API 發送請求 (Client 端)。\n**設定重點**：\n* \`Method\`：GET, POST, PUT, DELETE。\n* \`URL\`：目標網址。\n* \`Return\`：建議設為 \`a parsed JSON object\` 自動解析回傳資料。\n\n\n\n## 2. HTTP In / Response\n**用途**：建立自己的 Web API (Server 端)。\n* \`HTTP In\`：監聽特定 URL 路徑 (如 \`/hello\`)。\n* \`HTTP Response\`：發送回應給瀏覽器。\n**設定重點**：\n* \`HTTP In\` 的 \`URL\` 需以此開頭 (如 \`/api/data\`)。\n* 這兩個節點必須成對使用 (中間可夾 Function 處理邏輯)。\n\n## 3. MQTT In / Out\n**用途**：物聯網標準通訊協定。\n* \`MQTT In\`：訂閱主題 (Subscribe)。\n* \`MQTT Out\`：發布主題 (Publish)。\n**設定重點**：\n* \`Server\`：設定 Broker 地址 (如 \`broker.emqx.io\`)。\n* \`Topic\`：設定通訊頻道 (如 \`home/livingroom/light\`)。\n\n\n\n## 4. Email\n**用途**：發送電子郵件通知。\n**設定重點**：\n* 需設定 SMTP 伺服器 (如 Gmail 需申請應用程式密碼)。\n* \`To\`：收件人。\n\n## 5. LINE Bot\n**用途**：與 LINE 使用者互動 (Messaging API)。\n**設定重點**：\n* 需搭配 HTTP In/Response (Webhook 模式) 或 Push API。\n* 需填入 Channel Access Token。`,
+    content: `# 網路與通訊節點 (Network)
+
+連接外部世界，進行 API 呼叫與通訊。
+
+## 1. HTTP Request (請求)
+**用途**：主動向外部網站或 API 發送請求 (Client 端)。
+**設定重點**：
+* \`Method\`：GET, POST, PUT, DELETE。
+* \`URL\`：目標網址。
+* \`Return\`：建議設為 \`a parsed JSON object\` 自動解析回傳資料。
+
+## 2. HTTP In / Response
+**用途**：建立自己的 Web API (Server 端)。
+* \`HTTP In\`：監聽特定 URL 路徑 (如 \`/hello\`)。
+* \`HTTP Response\`：發送回應給瀏覽器。
+**設定重點**：
+* \`HTTP In\` 的 \`URL\` 需以此開頭 (如 \`/api/data\`)。
+* 這兩個節點必須成對使用 (中間可夾 Function 處理邏輯)。
+
+## 3. MQTT In / Out
+**用途**：物聯網標準通訊協定。
+* \`MQTT In\`：訂閱主題 (Subscribe)。
+* \`MQTT Out\`：發布主題 (Publish)。
+**設定重點**：
+* \`Server\`：設定 Broker 地址 (如 \`broker.emqx.io\`)。
+* \`Topic\`：設定通訊頻道 (如 \`home/livingroom/light\`)。
+
+## 4. Email
+**用途**：發送電子郵件通知。
+**設定重點**：
+* \`To\`：收件人。
+* **Gmail 設定注意**：需啟用 [兩步驟驗證](https://myaccount.google.com/security) 並申請 [應用程式密碼](https://myaccount.google.com/apppasswords) 填入 Password 欄位。
+
+## 5. LINE Bot
+**用途**：與 LINE 使用者互動 (Messaging API)。
+**設定重點**：
+* 需搭配 HTTP In/Response (Webhook 模式) 或 Push API。
+* **申請**: 前往 [LINE Developers](https://developers.line.biz/)。
+* **費用**: 輕用量方案每月免費 200 則。`,
     solutionFlow: `[]`
   },
   {
@@ -290,7 +328,7 @@ Node-RED 的編輯器主要分為三個區域：
 
 ![Weather API](/tutorials/p2-1_weather.png)
 
-IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n\n\n## 實作環境與材料\n\n* **環境**：需連接網際網路 (Internet)\n* **目標服務**：Open-Meteo (免費天氣 API)\n* **所需節點**：\n    * \`HTTP Request\`\n    * \`Debug\` (設定為 complete msg object)\n\n## API 資訊\n\n| 服務 | Open-Meteo |\n| :--- | :--- |\n| **Method** | GET |\n| **URL** | \`https://api.open-meteo.com/v1/forecast?latitude=25.03&longitude=121.56&current_weather=true\` |\n\n## 實作步驟\n\n1.  使用 \`inject\` 作為觸發。\n2.  連接 \`http request\`，貼上 API 網址，Return 設為 Object。\n3.  連接 \`debug\` 觀察 \`msg.payload\` 中的 JSON 物件。\n\n`,
+IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n\n\n## 實作環境與材料\n\n* **環境**：需連接網際網路 (Internet)\n* **目標服務**：Open-Meteo (免費天氣 API)\n* **所需節點**：\n    * \`HTTP Request\`\n    * \`Debug\` (設定為 complete msg object)\n\n## API 資訊\n\n| 服務 | Open-Meteo |\n| :--- | :--- |\n| **Method** | GET |\n| **URL** | \`https://api.open-meteo.com/v1/forecast?latitude=25.03&longitude=121.56&current_weather=true\` |\n| **費用** | **免費** (非商業用途) |\n| **限制** | 無需 API Key，但建議每日呼叫次數 < 10,000 次。 |\n\n## 實作步驟\n\n1.  使用 \`inject\` 作為觸發。\n2.  連接 \`http request\`，貼上 API 網址，Return 設為 Object。\n3.  連接 \`debug\` 觀察 \`msg.payload\` 中的 JSON 物件。\n\n`,
     solutionFlow: `[{"id":"t4_1","type":"inject","name":"查詢天氣","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":150,"y":300,"wires":[["t4_2"]]},{"id":"t4_2","type":"http request","name":"GET Open-Meteo","method":"GET","ret":"obj","paytoqs":"ignore","url":"https://api.open-meteo.com/v1/forecast?latitude=25.03&longitude=121.56&current_weather=true","tls":"","persist":false,"proxy":"","authType":"","senderr":false,"headers":[],"x":350,"y":300,"wires":[["t4_3"]]},{"id":"t4_3","type":"debug","name":"天氣資訊","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":550,"y":300,"wires":[]}]`
   },
   {
@@ -306,7 +344,7 @@ IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n
     title: '2-2-3. LINE Bot 聊天機器人',
     level: 'intermediate',
     description: '使用 Messaging API 打造雙向互動機器人。',
-    content: `# LINE Bot 雙向互動\n\n打造一個能與使用者對話的聊天機器人。由於 LINE Notify 服務已終止，現在我們全面使用功能更強大的 **Messaging API**。\n\n\n\n## 1. 申請 LINE Messaging API\n\n要開發 LINE Bot，必須先在 LINE Developers 平台建立頻道：\n\n1.  前往 [LINE Developers Console](https://developers.line.biz/console/) 並登入。\n2.  建立一個新的 **Provider** (提供者)。\n3.  在 Provider 下建立 **Create a new channel**，選擇 **Messaging API**。\n4.  填寫機器人名稱、敘述、類別等資訊。\n5.  建立完成後，進入 **Messaging API** 分頁：\n    * 掃描 QR Code 將機器人加為好友。\n    * 在下方找到 **Channel access token** (若無則點擊 Issue)，這串密鑰稍後 Node-RED 發送訊息時會用到。\n    * 啟用 **Use webhook** (稍後填入網址)。\n\n\n\n## 2. 實作架構 (Webhook)\n\nLINE Bot 的運作原理是「當有人傳訊息給機器人，LINE 伺服器會發送一個 POST 請求到你的伺服器 (Node-RED)」。\n\n\`\`\`text\n[LINE 伺服器] --(Webhook POST)--> [Node-RED (HTTP In)] -> [邏輯處理] -> [HTTP Request (Reply API)]\n\`\`\`\n\n## 3. 實作環境與材料\n\n* **軟體**：ngrok (用於將本機 localhost 暴露到公網，讓 LINE 能呼叫)\n* **節點**：\`http in\`, \`function\`, \`http request\`\n\n## 4. 實作步驟\n\n1.  **建立 Webhook 端點**：使用 \`http in\` 節點 (Method: POST, URL: /callback)。\n2.  **處理事件**：LINE 會傳送 JSON，訊息內容位於 \`msg.payload.events[0].message.text\`。\n3.  **回覆訊息**：呼叫 Reply API，將回應傳回給使用者。\n\n> **重要提示**：若您是在本機電腦執行 Node-RED，LINE 伺服器無法直接連線到 \`localhost\`。您必須使用 **ngrok** 等工具產生公開網址 (例如 \`https://xxxx.ngrok.io\`)，並將此網址填入 LINE Developers 後台的 Webhook URL 欄位 (例如 \`https://xxxx.ngrok.io/callback\`)。`,
+    content: `# LINE Bot 雙向互動\n\n打造一個能與使用者對話的聊天機器人。由於 LINE Notify 服務已終止，現在我們全面使用功能更強大的 **Messaging API**。\n\n\n\n## 1. 申請 LINE Messaging API\n\n要開發 LINE Bot，必須先在 LINE Developers 平台建立頻道：\n\n1.  前往 [LINE Developers Console](https://developers.line.biz/console/) 並登入。\n2.  建立一個新的 **Provider** (提供者)。\n3.  在 Provider 下建立 **Create a new channel**，選擇 **Messaging API**。\n4.  填寫機器人名稱、敘述、類別等資訊。\n5.  建立完成後，進入 **Messaging API** 分頁：\n    * 掃描 QR Code 將機器人加為好友。\n    * 在下方找到 **Channel access token** (若無則點擊 Issue)，這串密鑰稍後 Node-RED 發送訊息時會用到。\n    * 啟用 **Use webhook** (稍後填入網址)。\n\n\n\n## 2. 實作架構 (Webhook)\n\nLINE Bot 的運作原理是「當有人傳訊息給機器人，LINE 伺服器會發送一個 POST 請求到你的伺服器 (Node-RED)」。\n\n\`\`\`text\n[LINE 伺服器] --(Webhook POST)--> [Node-RED (HTTP In)] -> [邏輯處理] -> [HTTP Request (Reply API)]\n\`\`\`\n\n## 3. 費用與限制 (參考)\n\n*   **輕用量方案 (免費)**: 每月 200 則訊息。\n*   **計費方式**: 根據官方政策，主動推播 (Push) 計算額度，被動回覆 (Reply) 目前通常不計費 (詳見官方公告)。\n\n## 4. 實作環境與材料\n\n* **軟體**：ngrok (用於將本機 localhost 暴露到公網，讓 LINE 能呼叫)\n* **節點**：\`http in\`, \`function\`, \`http request\`\n\n## 5. 實作步驟\n\n1.  **建立 Webhook 端點**：使用 \`http in\` 節點 (Method: POST, URL: /callback)。\n2.  **處理事件**：LINE 會傳送 JSON，訊息內容位於 \`msg.payload.events[0].message.text\`。\n3.  **回覆訊息**：呼叫 Reply API，將回應傳回給使用者。\n\n> **重要提示**：若您是在本機電腦執行 Node-RED，LINE 伺服器無法直接連線到 \`localhost\`。您必須使用 **ngrok** 等工具產生公開網址 (例如 \`https://xxxx.ngrok.io\`)，並將此網址填入 LINE Developers 後台的 Webhook URL 欄位 (例如 \`https://xxxx.ngrok.io/callback\`)。`,
     solutionFlow: `[{"id":"lb_in","type":"http in","name":"Webhook","url":"/callback","method":"post","x":150,"y":650,"wires":[["lb_func"]]},{"id":"lb_func","type":"function","name":"處理訊息","func":"var events = msg.payload.events;\\nif (events && events.length > 0) {\\n    var replyToken = events[0].replyToken;\\n    var userText = events[0].message.text;\\n    \\n    // 簡單的回覆邏輯\\n    msg.payload = {\\n        replyToken: replyToken,\\n        messages: [{ type: 'text', text: '收到：' + userText }]\\n    };\\n    // 設定 Header (需填入 Channel Access Token)\\n    msg.headers = {\\n        'Content-Type': 'application/json',\\n        'Authorization': 'Bearer YOUR_CHANNEL_ACCESS_TOKEN'\\n    };\\n    msg.url = 'https://api.line.me/v2/bot/message/reply';\\n    return msg;\\n}\\nreturn null;","x":350,"y":650,"wires":[["lb_req"]]},{"id":"lb_req","type":"http request","name":"Reply API","method":"POST","ret":"obj","url":"","x":550,"y":650,"wires":[]}]`
   },
 
@@ -316,7 +354,30 @@ IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n
     title: '2-3-1. MQTT 通訊實戰',
     level: 'advanced',
     description: '建立 Publisher 與 Subscriber，體驗 IoT M2M 通訊。',
-    content: `# 輕量級通訊標準 MQTT\n\n體驗機器對機器 (M2M) 的對話，這是物聯網最核心的通訊協定。\n\n\n\n## 實作環境與材料\n\n* **Broker (伺服器)**：使用公開測試機 \`broker.emqx.io\` 或自行架設 Mosquito。\n* **Client A (發布者)**：Node-RED (或 ESP32 開發板)。\n* **Client B (訂閱者)**：Node-RED (或手機 MQTT App)。\n\n\n\n## 實作步驟\n\n1.  設定 \`mqtt out\` Topic 為 \`lab/switch\`。\n2.  設定 \`mqtt in\` 訂閱相同 Topic。\n3.  Inject 發送 "ON"，觀察訂閱端是否收到。`,
+    content: `# 輕量級通訊標準 MQTT
+
+體驗機器對機器 (M2M) 的對話，這是物聯網最核心的通訊協定。
+
+## 1. 關於 Broker (伺服器)
+
+*   **EMQX Public Interface (本次使用)**:
+    *   **說明**: 公開測試伺服器，**數據完全公開**，任何人訂閱相同 Topic 都能收到。請勿傳輸隱私資料。
+    *   **費用**: 免費。
+*   **其他選擇**:
+    *   **Mosquitto**: 可自行架設的開源 Broker。
+    *   **HiveMQ Cloud**: 提供免費層級的雲端 Cluster。
+
+## 2. 實作環境與材料
+
+* **Broker**: \`broker.emqx.io\` (Port 1883)
+* **Client A (發布者)**：Node-RED (或 ESP32 開發板)。
+* **Client B (訂閱者)**：Node-RED (或手機 MQTT App)。
+
+## 3. 實作步驟
+
+1.  設定 \`mqtt out\` Topic 為 \`lab/switch\`。
+2.  設定 \`mqtt in\` 訂閱相同 Topic。
+3.  Inject 發送 "ON"，觀察訂閱端是否收到。`,
     solutionFlow: `[{"id":"t7_pub","type":"mqtt out","name":"發布者","topic":"lab/switch","qos":"","retain":"","broker":"mqtt_broker","x":380,"y":650,"wires":[]},{"id":"t7_inj","type":"inject","name":"發送 ON","props":[{"p":"payload"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"ON","payloadType":"str","x":180,"y":650,"wires":[["t7_pub"]]},{"id":"t7_sub","type":"mqtt in","name":"訂閱者","topic":"lab/switch","qos":"2","datatype":"auto-detect","broker":"mqtt_broker","x":180,"y":720,"wires":[["t7_debug"]]},{"id":"t7_debug","type":"debug","name":"收到指令","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":380,"y":720,"wires":[]},{"id":"mqtt_broker","type":"mqtt-broker","name":"EMQX Public","broker":"broker.emqx.io","port":"1883","clientid":"","autoConnect":true,"usetls":false,"protocolVersion":"4","keepalive":"60","cleansession":true,"autoUnsubscribe":true,"birthTopic":"","birthQos":"0","birthRetain":"false","birthPayload":"","closeTopic":"","closeQos":"0","closePayload":"","willTopic":"","willQos":"0","willPayload":""}]`
   },
   {
@@ -354,7 +415,7 @@ IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n
 
 1.  前往 [OpenAI Platform](https://platform.openai.com) 並註冊帳號。
 2.  點擊右上角個人頭像 -> **View API keys**。
-3.  點擊 **Create new secret key**，複製這串 `sk-...` 開頭的密鑰 (遺失無法查看，需重新產生)。
+3.  點擊 **Create new secret key**，複製這串 \`sk-...\` 開頭的密鑰 (遺失無法查看，需重新產生)。
 4.  (重要) 前往 Billing 設定付款方式，新帳號通常有 5 美元免費額度，用完需綁卡。
 
 ## 3. 費用說明 (參考)
@@ -371,14 +432,14 @@ IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n
 4.  **Debug**: 查看 AI 回覆的 JSON。
 
 `,
-  solutionFlow: `[{"id":"ai_inj","type":"inject","name":"提問","props":[{"p":"payload"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"請用像海盜一樣的口吻自我介紹","payloadType":"str","x":140,"y":1000,"wires":[["ai_func"]]},{"id":"ai_func","type":"function","name":"封裝 OpenAI 請求","func":"// 請填入您的 API Key\\nvar apiKey = \"Bearer sk-xxxxxxxx\";\\n\\nmsg.headers = {\\n    \"Content-Type\": \"application/json\",\\n    \"Authorization\": apiKey\\n};\\n\\nmsg.payload = {\\n    \"model\": \"gpt-3.5-turbo\",\\n    \"messages\": [\\n        {\"role\": \"user\", \"content\": msg.payload}\\n    ]\\n};\\nreturn msg;","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":340,"y":1000,"wires":[["ai_req"]]},{"id":"ai_req","type":"http request","name":"POST API","method":"POST","ret":"obj","paytoqs":"ignore","url":"https://api.openai.com/v1/chat/completions","tls":"","persist":false,"proxy":"","authType":"","senderr":false,"headers":[],"x":540,"y":1000,"wires":[["ai_debug"]]},{"id":"ai_debug","type":"debug","name":"AI 回覆","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload.choices[0].message.content","targetType":"msg","statusVal":"","statusType":"auto","x":740,"y":1000,"wires":[]}]`
+    solutionFlow: `[{"id":"ai_inj","type":"inject","name":"提問","props":[{"p":"payload"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"請用像海盜一樣的口吻自我介紹","payloadType":"str","x":140,"y":1000,"wires":[["ai_func"]]},{"id":"ai_func","type":"function","name":"封裝 OpenAI 請求","func":"// 請填入您的 API Key\\nvar apiKey = \"Bearer sk-xxxxxxxx\";\\n\\nmsg.headers = {\\n    \"Content-Type\": \"application/json\",\\n    \"Authorization\": apiKey\\n};\\n\\nmsg.payload = {\\n    \"model\": \"gpt-3.5-turbo\",\\n    \"messages\": [\\n        {\"role\": \"user\", \"content\": msg.payload}\\n    ]\\n};\\nreturn msg;","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":340,"y":1000,"wires":[["ai_req"]]},{"id":"ai_req","type":"http request","name":"POST API","method":"POST","ret":"obj","paytoqs":"ignore","url":"https://api.openai.com/v1/chat/completions","tls":"","persist":false,"proxy":"","authType":"","senderr":false,"headers":[],"x":540,"y":1000,"wires":[["ai_debug"]]},{"id":"ai_debug","type":"debug","name":"AI 回覆","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload.choices[0].message.content","targetType":"msg","statusVal":"","statusType":"auto","x":740,"y":1000,"wires":[]}]`
   },
-{
-  id: 'ai-2',
+  {
+    id: 'ai-2',
     title: '3-2. 電腦視覺與影像分析',
-      level: 'ai',
-        description: '模擬串接 Vision API，辨識圖片中的物件。',
-          content: `# 讓系統「看見」世界
+    level: 'ai',
+    description: '模擬串接 Vision API，辨識圖片中的物件。',
+    content: `# 讓系統「看見」世界
 
 利用 AI 進行影像辨識。
 
@@ -405,14 +466,14 @@ IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n
 1.  **Inject**: 輸入圖片 URL。
 2.  **HTTP Request**: 呼叫 Vision API。
 3.  **Function**: 解析回傳的標籤 (Tags) 與信心分數 (Confidence)。`,
-            solutionFlow: `[{"id":"vis_1","type":"inject","name":"圖片 URL","payload":"http://example.com/cat.jpg","x":150,"y":1100,"wires":[["vis_req"]]},{"id":"vis_req","type":"http request","name":"POST Vision API","method":"POST","url":"https://api.example.com/vision/analyze","x":350,"y":1100,"wires":[["vis_debug"]]},{"id":"vis_debug","type":"debug","name":"辨識結果","x":550,"y":1100,"wires":[]}]`
-},
-{
-  id: 'ai-3',
+    solutionFlow: `[{"id":"vis_1","type":"inject","name":"圖片 URL","payload":"http://example.com/cat.jpg","x":150,"y":1100,"wires":[["vis_req"]]},{"id":"vis_req","type":"http request","name":"POST Vision API","method":"POST","url":"https://api.example.com/vision/analyze","x":350,"y":1100,"wires":[["vis_debug"]]},{"id":"vis_debug","type":"debug","name":"辨識結果","x":550,"y":1100,"wires":[]}]`
+  },
+  {
+    id: 'ai-3',
     title: '3-3. 語音助理實作',
-      level: 'ai',
-        description: '模擬語音轉文字 (STT) 與意圖識別。',
-          content: `# 打造語音控制介面
+    level: 'ai',
+    description: '模擬語音轉文字 (STT) 與意圖識別。',
+    content: `# 打造語音控制介面
 
 結合 Speech-to-Text (STT) 技術。
 
@@ -438,14 +499,14 @@ IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n
 2.  **STT 轉換**：將音訊轉為文字指令 (如 "打開客廳電燈")。
 3.  **語意分析**：解析關鍵字 ("打開", "客廳", "電燈")。
 4.  **執行動作**：觸發對應的 MQTT 開關。`,
-            solutionFlow: `[{"id":"stt_1","type":"inject","name":"模擬語音指令","payload":"打開客廳電燈","x":150,"y":1200,"wires":[["stt_switch"]]},{"id":"stt_switch","type":"switch","name":"意圖分析","property":"payload","rules":[{"t":"cont","v":"打開"},{"t":"cont","v":"關閉"}],"x":350,"y":1200,"wires":[["stt_on"],["stt_off"]]},{"id":"stt_on","type":"debug","name":"執行：開啟","x":550,"y":1180,"wires":[]},{"id":"stt_off","type":"debug","name":"執行：關閉","x":550,"y":1220,"wires":[]}]`
-},
-{
-  id: 'ai-4',
+    solutionFlow: `[{"id":"stt_1","type":"inject","name":"模擬語音指令","payload":"打開客廳電燈","x":150,"y":1200,"wires":[["stt_switch"]]},{"id":"stt_switch","type":"switch","name":"意圖分析","property":"payload","rules":[{"t":"cont","v":"打開"},{"t":"cont","v":"關閉"}],"x":350,"y":1200,"wires":[["stt_on"],["stt_off"]]},{"id":"stt_on","type":"debug","name":"執行：開啟","x":550,"y":1180,"wires":[]},{"id":"stt_off","type":"debug","name":"執行：關閉","x":550,"y":1220,"wires":[]}]`
+  },
+  {
+    id: 'ai-4',
     title: '3-4. AI 情感分析客服',
-      level: 'ai',
-        description: '利用 NLP 技術自動分析客戶留言情緒，進行智慧分流。',
-          content: `# 智慧客服系統：情感分析
+    level: 'ai',
+    description: '利用 NLP 技術自動分析客戶留言情緒，進行智慧分流。',
+    content: `# 智慧客服系統：情感分析
 
 自動判讀客戶留言是「正面好評」還是「負面抱怨」，並自動通知相關部門。
 
@@ -472,14 +533,14 @@ IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n
     * 分數 > 0.5 (正面)：自動回覆感謝。
     * 分數 < -0.5 (負面)：發送 LINE 通知給經理處理。
 4.  **顯示結果**：在 Dashboard 顯示分析結果。`,
-            solutionFlow: `[{"id":"nlp_in","type":"inject","name":"客戶留言","payload":"這產品太棒了，我很喜歡！","x":150,"y":1300,"wires":[["nlp_func"]]},{"id":"nlp_func","type":"function","name":"模擬 NLP 分析","func":"// 模擬 API 回傳\nvar score = 0.8; // 正面\nmsg.payload = { score: score, sentiment: 'positive' };\nreturn msg;","x":350,"y":1300,"wires":[["nlp_switch"]]},{"id":"nlp_switch","type":"switch","name":"情緒分流","property":"payload.score","rules":[{"t":"gt","v":"0.5"},{"t":"lt","v":"-0.5"}],"x":550,"y":1300,"wires":[["nlp_pos"],["nlp_neg"]]},{"id":"nlp_pos","type":"debug","name":"回覆感謝","x":750,"y":1280,"wires":[]},{"id":"nlp_neg","type":"debug","name":"通知經理","x":750,"y":1320,"wires":[]}]`
-},
-{
-  id: 'ai-5',
+    solutionFlow: `[{"id":"nlp_in","type":"inject","name":"客戶留言","payload":"這產品太棒了，我很喜歡！","x":150,"y":1300,"wires":[["nlp_func"]]},{"id":"nlp_func","type":"function","name":"模擬 NLP 分析","func":"// 模擬 API 回傳\nvar score = 0.8; // 正面\nmsg.payload = { score: score, sentiment: 'positive' };\nreturn msg;","x":350,"y":1300,"wires":[["nlp_switch"]]},{"id":"nlp_switch","type":"switch","name":"情緒分流","property":"payload.score","rules":[{"t":"gt","v":"0.5"},{"t":"lt","v":"-0.5"}],"x":550,"y":1300,"wires":[["nlp_pos"],["nlp_neg"]]},{"id":"nlp_pos","type":"debug","name":"回覆感謝","x":750,"y":1280,"wires":[]},{"id":"nlp_neg","type":"debug","name":"通知經理","x":750,"y":1320,"wires":[]}]`
+  },
+  {
+    id: 'ai-5',
     title: '3-5. AI 繪圖生成器',
-      level: 'ai',
-        description: '串接 DALL-E 或 Stable Diffusion，透過文字描述生成圖片。',
-          content: `# 文字轉圖片 (Text-to-Image)
+    level: 'ai',
+    description: '串接 DALL-E 或 Stable Diffusion，透過文字描述生成圖片。',
+    content: `# 文字轉圖片 (Text-to-Image)
 
 輸入一段描述，讓 AI 自動產生對應的圖片。
 
@@ -508,8 +569,8 @@ IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n
 4.  **顯示圖片**：使用 \`ui_template\` 將 URL 放入 \`<img src="...">\` 標籤中顯示。
 
 `,
-            solutionFlow: `[{"id":"img_in","type":"inject","name":"Prompt","payload":"A cyberpunk cat","x":150,"y":1400,"wires":[["img_req"]]},{"id":"img_req","type":"http request","name":"DALL-E API","method":"POST","url":"https://api.openai.com/v1/images/generations","x":350,"y":1400,"wires":[["img_show"]]},{"id":"img_show","type":"template","name":"顯示圖片","format":"handlebars","template":"<img src='{{payload.data[0].url}}' width='300'>","x":550,"y":1400,"wires":[]}]`
-}
+    solutionFlow: `[{"id":"img_in","type":"inject","name":"Prompt","payload":"A cyberpunk cat","x":150,"y":1400,"wires":[["img_req"]]},{"id":"img_req","type":"http request","name":"DALL-E API","method":"POST","url":"https://api.openai.com/v1/images/generations","x":350,"y":1400,"wires":[["img_show"]]},{"id":"img_show","type":"template","name":"顯示圖片","format":"handlebars","template":"<img src='{{payload.data[0].url}}' width='300'>","x":550,"y":1400,"wires":[]}]`
+  }
 ];
 
 // --- 元件：簡易 Markdown 渲染器 ---
