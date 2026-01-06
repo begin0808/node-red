@@ -6,7 +6,7 @@ import {
   ExternalLink, Clock, Edit3, Mail, Smartphone, MousePointerClick, Type, Gauge,
   Server, ArrowLeftRight, Braces, Download, Image as ImageIcon, Table, Brain, MessageCircle,
   GraduationCap, Layers, Bot, Smile, Image, ToggleLeft, Sliders, ChevronDown, PieChart, PenTool,
-  FormInput, Eye, Mic, Palette, List, SlidersHorizontal
+  FormInput, Eye, Mic, Palette, List, SlidersHorizontal, GitBranch
 } from 'lucide-react';
 
 // --- React Flow Imports (本機版已啟用) ---
@@ -814,8 +814,8 @@ const nodeTypes = {
 // --- RealSimulatorCanvas ---
 const RealSimulatorCanvas = () => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const [tab, setTab] = useState<'debug' | 'props'>('debug');
