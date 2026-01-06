@@ -1110,7 +1110,7 @@ const nodeTypes = {
   "mqtt out": MqttOutNode,
   "http request": HttpRequestNode,
 };
-};
+
 
 // --- RealSimulatorCanvas ---
 const RealSimulatorCanvas = () => {
