@@ -651,47 +651,63 @@ const Tutorial: React.FC<{ category: ViewState }> = ({ category }) => {
 };
 
 // --- Custom Node Components ---
-const BaseNode = ({ label, icon: Icon, color, isSource, isTarget, onInject, id, data }: any) => (
-  // Updated: Solid background color (Scratch-style), smaller font, adjusted width
-  <div className={`relative min-w-[70px] bg-${color}-600 border-2 border-${color}-400 rounded-lg shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-200 text-[10px] text-white flex items-center overflow-hidden`}>
 
-    {/* Left Handle (Target) */}
-    {isTarget && (
-      <div className="absolute -left-1.5 flex items-center h-full z-10">
-        <Handle type="target" position={Position.Left} className="!w-3 !h-3 !border-2 !border-white opacity-0 hover:opacity-100" />
-        <div className="w-2 h-2 rounded-full bg-white shadow-sm"></div>
-      </div>
-    )}
+// Explicit Tailwind class mapping to ensure JIT picks them up
+const NODE_STYLES: Record<string, { bg: string, border: string, iconBg: string, handle: string }> = {
+  cyan: { bg: 'bg-cyan-600', border: 'border-cyan-400', iconBg: 'bg-cyan-800', handle: '!bg-cyan-500' },
+  green: { bg: 'bg-green-600', border: 'border-green-400', iconBg: 'bg-green-800', handle: '!bg-green-500' },
+  yellow: { bg: 'bg-yellow-600', border: 'border-yellow-400', iconBg: 'bg-yellow-800', handle: '!bg-yellow-500' },
+  blue: { bg: 'bg-blue-600', border: 'border-blue-400', iconBg: 'bg-blue-800', handle: '!bg-blue-500' },
+  red: { bg: 'bg-red-600', border: 'border-red-400', iconBg: 'bg-red-800', handle: '!bg-red-500' },
+  purple: { bg: 'bg-purple-600', border: 'border-purple-400', iconBg: 'bg-purple-800', handle: '!bg-purple-500' },
+  slate: { bg: 'bg-slate-600', border: 'border-slate-400', iconBg: 'bg-slate-800', handle: '!bg-slate-500' },
+  pink: { bg: 'bg-pink-600', border: 'border-pink-400', iconBg: 'bg-pink-800', handle: '!bg-pink-500' },
+  orange: { bg: 'bg-orange-600', border: 'border-orange-400', iconBg: 'bg-orange-800', handle: '!bg-orange-500' },
+};
 
-    {/* Icon Area */}
-    {onInject ? (
-      <div
-        className={`w-7 h-7 bg-${color}-800/50 cursor-pointer flex items-center justify-center hover:bg-${color}-800 z-10 border-r border-${color}-500/30`}
-        onClick={(e) => { e.stopPropagation(); onInject(id, data); }}
-        title="點擊觸發"
-      >
-        <div className="w-2 h-2 bg-white rounded-sm shadow-sm animate-pulse"></div>
-      </div>
-    ) : (
-      <div className={`w-7 h-7 flex items-center justify-center border-r border-${color}-500/30 bg-${color}-800/30`}>
-        <Icon className="w-3.5 h-3.5 text-white/90" />
-      </div>
-    )}
+const BaseNode = ({ label, icon: Icon, color = 'slate', isSource, isTarget, onInject, id, data }: any) => {
+  const style = NODE_STYLES[color] || NODE_STYLES['slate'];
 
-    {/* Label */}
-    <div className="px-2 py-1.5 flex-1 font-bold font-mono leading-tight tracking-wide min-h-[24px] flex items-center">
-      {data.label || label}
+  return (
+    <div className={`relative min-w-[100px] h-[30px] ${style.bg} border-2 ${style.border} rounded-md shadow-md flex items-center overflow-hidden transition-transform hover:scale-105 active:scale-95`}>
+      {/* Target Handle */}
+      {isTarget && (
+        <div className="absolute -left-2 flex items-center h-full z-20">
+          <Handle type="target" position={Position.Left} className={`${style.handle} !w-3 !h-3 !border-2 !border-white`} />
+        </div>
+      )}
+
+      {/* Icon Section */}
+      {onInject ? (
+        <div
+          className={`h-full w-8 ${style.iconBg} flex items-center justify-center cursor-pointer hover:brightness-110 z-10 border-r border-white/20`}
+          onClick={(e) => { e.stopPropagation(); onInject(id, data); }}
+          title="Click to Trigger"
+        >
+          <div className="w-3 h-3 bg-white rounded-sm shadow-sm animate-pulse"></div>
+        </div>
+      ) : (
+        <div className={`h-full w-8 flex items-center justify-center border-r border-white/20 ${style.iconBg}/50`}>
+          {Icon && <Icon className="w-4 h-4 text-white" />}
+        </div>
+      )}
+
+      {/* Label Section */}
+      <div className="flex-1 px-2 flex items-center justify-center overflow-hidden">
+        <span className="text-[10px] font-bold text-white font-mono leading-none whitespace-nowrap overflow-hidden text-ellipsis">
+          {data.label || label}
+        </span>
+      </div>
+
+      {/* Source Handle */}
+      {isSource && (
+        <div className="absolute -right-2 flex items-center h-full z-20">
+          <Handle type="source" position={Position.Right} className={`${style.handle} !w-3 !h-3 !border-2 !border-white`} />
+        </div>
+      )}
     </div>
-
-    {/* Right Handle (Source) */}
-    {isSource && (
-      <div className="absolute -right-1.5 flex items-center h-full z-10">
-        <div className="w-2 h-2 rounded-full bg-white shadow-sm"></div>
-        <Handle type="source" position={Position.Right} className="!w-3 !h-3 !border-2 !border-white opacity-0 hover:opacity-100" />
-      </div>
-    )}
-  </div>
-);
+  );
+};
 
 // Common
 const InjectNode = (props: any) => <BaseNode {...props} label="timestamp" color="cyan" isSource={true} onInject={props.data.onInject} />;
