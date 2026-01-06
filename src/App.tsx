@@ -710,50 +710,72 @@ const BaseNode = ({ label, icon: Icon, color = 'slate', isSource, isTarget, onIn
 };
 
 // Common
-const InjectNode = (props: any) => <BaseNode {...props} label="timestamp" color="cyan" isSource={true} onInject={props.data.onInject} />;
+const InjectNode = (props: any) => <BaseNode {...props} label="timestamp" color="blue" isSource={true} onInject={props.data.onInject} />;
 const DebugNode = (props: any) => <BaseNode {...props} label="msg.payload" icon={Cpu} color="green" isTarget={true} />;
 // Function
 const FunctionNode = (props: any) => <BaseNode {...props} label="function" icon={Code2} color="yellow" isSource={true} isTarget={true} />;
-const DelayNode = (props: any) => <BaseNode {...props} label="delay 2s" icon={Clock} color="yellow" isSource={true} isTarget={true} />;
+const DelayNode = (props: any) => <BaseNode {...props} label="delay 2s" icon={Clock} color="orange" isSource={true} isTarget={true} />;
 const ChangeNode = (props: any) => <BaseNode {...props} label="change" icon={Edit3} color="yellow" isSource={true} isTarget={true} />;
-const TemplateNode = (props: any) => <BaseNode {...props} label="template" icon={LayoutTemplate} color="pink" isSource={true} isTarget={true} />;
+const TemplateNode = (props: any) => <BaseNode {...props} label="template" icon={LayoutTemplate} color="slate" isSource={true} isTarget={true} />;
 // Network
-const MqttNode = (props: any) => <BaseNode {...props} label="mqtt out" icon={Wifi} color="blue" isSource={true} isTarget={true} />;
-const HttpRequestNode = (props: any) => <BaseNode {...props} label="http req" icon={Globe} color="indigo" isSource={true} isTarget={true} />;
-const HttpInNode = (props: any) => <BaseNode {...props} label="http in" icon={Server} color="indigo" isSource={true} onInject={props.data.onInject} />;
-const HttpResponseNode = (props: any) => <BaseNode {...props} label="http res" icon={ArrowLeftRight} color="indigo" isTarget={true} />;
+const MqttNode = (props: any) => <BaseNode {...props} label="mqtt out" icon={Wifi} color="red" isSource={true} isTarget={true} />;
+const HttpRequestNode = (props: any) => <BaseNode {...props} label="http req" icon={Globe} color="slate" isSource={true} isTarget={true} />;
+const HttpInNode = (props: any) => <BaseNode {...props} label="http in" icon={Server} color="slate" isSource={true} onInject={props.data.onInject} />;
+const HttpResponseNode = (props: any) => <BaseNode {...props} label="http res" icon={ArrowLeftRight} color="slate" isTarget={true} />;
 // Data
 const CsvNode = (props: any) => <BaseNode {...props} label="csv" icon={FileText} color="orange" isSource={true} isTarget={true} />;
 const JsonNode = (props: any) => <BaseNode {...props} label="json" icon={Braces} color="orange" isSource={true} isTarget={true} />;
 // Social
-const EmailNode = (props: any) => <BaseNode {...props} label="email" icon={Mail} color="red" isTarget={true} />;
+const EmailNode = (props: any) => <BaseNode {...props} label="email" icon={Mail} color="pink" isTarget={true} />;
 const LineNode = (props: any) => <BaseNode {...props} label="line bot" icon={MessageCircle} color="green" isTarget={true} />;
-// AI
-const ChatGPTNode = (props: any) => <BaseNode {...props} label="chatgpt" icon={Bot} color="purple" isSource={true} isTarget={true} />;
-const VisionNode = (props: any) => <BaseNode {...props} label="vision ai" icon={Eye} color="purple" isSource={true} isTarget={true} />;
-const SttNode = (props: any) => <BaseNode {...props} label="voice stt" icon={Mic} color="purple" isSource={true} isTarget={true} />;
-const SentimentNode = (props: any) => <BaseNode {...props} label="sentiment" icon={Smile} color="purple" isSource={true} isTarget={true} />;
-const DalleNode = (props: any) => <BaseNode {...props} label="dall-e" icon={Image} color="purple" isSource={true} isTarget={true} />;
-// Dashboard
-const UiButtonNode = (props: any) => <BaseNode {...props} label="button" icon={MousePointerClick} color="blue" isSource={true} onInject={props.data.onInject} />;
-const UiTextNode = (props: any) => <BaseNode {...props} label="text" icon={Type} color="blue" isTarget={true} />;
-const UiGaugeNode = (props: any) => <BaseNode {...props} label="gauge" icon={Gauge} color="blue" isTarget={true} />;
-const UiSwitchNode = (props: any) => <BaseNode {...props} label="switch" icon={ToggleLeft} color="blue" isSource={true} onInject={props.data.onInject} />;
-const UiSliderNode = (props: any) => <BaseNode {...props} label="slider" icon={Sliders} color="blue" isSource={true} onInject={props.data.onInject} />;
-const UiDropdownNode = (props: any) => <BaseNode {...props} label="dropdown" icon={ChevronDown} color="blue" isSource={true} onInject={props.data.onInject} />;
-const UiInputNode = (props: any) => <BaseNode {...props} label="text input" icon={FormInput} color="blue" isSource={true} onInject={props.data.onInject} />;
-const UiChartNode = (props: any) => <BaseNode {...props} label="chart" icon={PieChart} color="blue" isTarget={true} />;
+// AI (Updated: Pink/Purple mix)
+const ChatGPTNode = (props: any) => <BaseNode {...props} label="chatgpt" icon={Bot} color="pink" isSource={true} isTarget={true} />;
+const VisionNode = (props: any) => <BaseNode {...props} label="vision ai" icon={Eye} color="pink" isSource={true} isTarget={true} />;
+const SttNode = (props: any) => <BaseNode {...props} label="voice stt" icon={Mic} color="pink" isSource={true} isTarget={true} />;
+const SentimentNode = (props: any) => <BaseNode {...props} label="sentiment" icon={Smile} color="pink" isSource={true} isTarget={true} />;
+const DalleNode = (props: any) => <BaseNode {...props} label="dall-e" icon={Image} color="pink" isSource={true} isTarget={true} />;
 
-// Special Switch Node
-const SwitchNode = ({ data }: any) => {
+// Dashboard (Updated: Cyan/Blue)
+const UiButtonNode = (props: any) => <BaseNode {...props} label="button" icon={MousePointerClick} color="cyan" isSource={true} onInject={props.data.onInject} />;
+const UiTextNode = (props: any) => <BaseNode {...props} label="text" icon={Type} color="cyan" isTarget={true} />;
+const UiGaugeNode = (props: any) => <BaseNode {...props} label="gauge" icon={Gauge} color="cyan" isTarget={true} />;
+const UiSwitchNode = (props: any) => <BaseNode {...props} label="switch" icon={ToggleLeft} color="cyan" isSource={true} onInject={props.data.onInject} />;
+const UiSliderNode = (props: any) => <BaseNode {...props} label="slider" icon={Sliders} color="cyan" isSource={true} onInject={props.data.onInject} />;
+const UiDropdownNode = (props: any) => <BaseNode {...props} label="dropdown" icon={ChevronDown} color="cyan" isSource={true} onInject={props.data.onInject} />;
+const UiInputNode = (props: any) => <BaseNode {...props} label="text input" icon={FormInput} color="cyan" isSource={true} onInject={props.data.onInject} />;
+const UiChartNode = (props: any) => <BaseNode {...props} label="chart" icon={PieChart} color="cyan" isTarget={true} />;
+
+// Special Switch Node (Standardized)
+const SwitchNode = ({ data, id }: any) => {
+  const style = NODE_STYLES['purple'];
   return (
-    <div className="relative min-w-[60px] bg-slate-800 border border-purple-500/50 rounded-md shadow-[0_0_5px_rgba(168,85,247,0.2)] text-[8px] text-slate-200 flex items-center overflow-hidden">
-      <Handle type="target" position={Position.Left} className="!bg-purple-500 !w-1.5 !h-1.5 !-left-0.5" />
-      <div className="w-full px-1.5 py-0.5 text-center font-mono text-purple-100 flex items-center gap-1 justify-center">
-        <ArrowRight className="w-2.5 h-2.5" /> {data.label || 'switch'}
+    <div className={`relative min-w-[100px] h-[30px] ${style.bg} border-2 ${style.border} rounded-md shadow-md flex items-center overflow-hidden transition-transform hover:scale-105 active:scale-95`}>
+      {/* Target (Left) */}
+      <div className="absolute -left-2 flex items-center h-full z-20">
+        <Handle type="target" position={Position.Left} className={`${style.handle} !w-3 !h-3 !border-2 !border-white`} />
       </div>
-      <Handle type="source" position={Position.Right} id="out-1" className="!bg-purple-500 !w-1.5 !h-1.5 !-right-0.5 !top-1/3" title="Condition True" />
-      <Handle type="source" position={Position.Right} id="out-2" className="!bg-slate-500 !w-1.5 !h-1.5 !-right-0.5 !top-2/3" title="Condition False" />
+
+      {/* Icon */}
+      <div className={`h-full w-8 flex items-center justify-center border-r border-white/20 ${style.iconBg}/50`}>
+        <GitBranch className="w-4 h-4 text-white" />
+      </div>
+
+      {/* Label */}
+      <div className="flex-1 px-2 flex items-center justify-center overflow-hidden">
+        <span className="text-[10px] font-bold text-white font-mono leading-none whitespace-nowrap overflow-hidden text-ellipsis">
+          {data.label || 'switch'}
+        </span>
+      </div>
+
+      {/* Source Handles (Right) */}
+      <div className="absolute -right-2 flex flex-col justify-center h-full z-20 -space-y-1">
+        <div className="relative w-3 h-3 flex items-center">
+          <Handle type="source" position={Position.Right} id="out-1" className={`${style.handle} !w-2.5 !h-2.5 !border-2 !border-white !relative !right-0`} title="True" />
+        </div>
+        <div className="relative w-3 h-3 flex items-center">
+          <Handle type="source" position={Position.Right} id="out-2" className={`${NODE_STYLES['slate'].handle} !w-2.5 !h-2.5 !border-2 !border-white !relative !right-0`} title="False" />
+        </div>
+      </div>
     </div>
   );
 };
