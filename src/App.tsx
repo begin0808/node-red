@@ -342,41 +342,174 @@ IoT 裝置常需與雲端服務互動，例如上傳數據或獲取天氣。\n\n
     title: '3-1. 串接 ChatGPT (OpenAI)',
     level: 'ai',
     description: '賦予 Node-RED 大腦！建立一個智慧問答機器人。',
-    content: `# AI 智能整合：OpenAI API\n\n將強大的 GPT 模型引入您的流程。\n\n\n\n## 實作環境與材料\n\n* **API Key**：需申請 OpenAI API Key (需付費或試用額度)。\n* **網路**：必須連接網際網路。\n\n## 實作步驟\n\n1.  **Inject**: 輸入問題 (如 "Node-RED 是什麼?")。\n2.  **Function**: 設定 Header (Authorization) 與 Body (model: "gpt-3.5-turbo")。\n3.  **HTTP Request**: POST 到 \`https://api.openai.com/v1/chat/completions\`。\n4.  **Debug**: 查看 AI 回覆的 JSON。\n\n`,
-    solutionFlow: `[{"id":"ai_inj","type":"inject","name":"提問","props":[{"p":"payload"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"請用像海盜一樣的口吻自我介紹","payloadType":"str","x":140,"y":1000,"wires":[["ai_func"]]},{"id":"ai_func","type":"function","name":"封裝 OpenAI 請求","func":"// 請填入您的 API Key\\nvar apiKey = \"Bearer sk-xxxxxxxx\";\\n\\nmsg.headers = {\\n    \"Content-Type\": \"application/json\",\\n    \"Authorization\": apiKey\\n};\\n\\nmsg.payload = {\\n    \"model\": \"gpt-3.5-turbo\",\\n    \"messages\": [\\n        {\"role\": \"user\", \"content\": msg.payload}\\n    ]\\n};\\nreturn msg;","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":340,"y":1000,"wires":[["ai_req"]]},{"id":"ai_req","type":"http request","name":"POST API","method":"POST","ret":"obj","paytoqs":"ignore","url":"https://api.openai.com/v1/chat/completions","tls":"","persist":false,"proxy":"","authType":"","senderr":false,"headers":[],"x":540,"y":1000,"wires":[["ai_debug"]]},{"id":"ai_debug","type":"debug","name":"AI 回覆","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload.choices[0].message.content","targetType":"msg","statusVal":"","statusType":"auto","x":740,"y":1000,"wires":[]}]`
+    content: `# AI 智能整合：OpenAI API
+
+將強大的 GPT 模型引入您的流程。
+
+## 1. 什麼是 OpenAI API？
+
+這是目前最強大的大型語言模型 (LLM) 介面，能理解並生成自然語言、程式碼，甚至進行角色扮演。Node-RED 可透過它實現智慧問答、翻譯或自動化客服。
+
+## 2. 如何申請 API Key？
+
+1.  前往 [OpenAI Platform](https://platform.openai.com) 並註冊帳號。
+2.  點擊右上角個人頭像 -> **View API keys**。
+3.  點擊 **Create new secret key**，複製這串 `sk-...` 開頭的密鑰 (遺失無法查看，需重新產生)。
+4.  (重要) 前往 Billing 設定付款方式，新帳號通常有 5 美元免費額度，用完需綁卡。
+
+## 3. 費用說明 (參考)
+
+*   **GPT-3.5 Turbo**: 非常便宜，約 $0.50 USD / 100 萬個 Token (約 75 萬中文字)。
+*   **GPT-4o**: 較貴但更聰明，約 $5.00 USD / 100 萬個 Token。
+*   *價格可能變動，請以此官網為準。*
+
+## 實作步驟
+
+1.  **Inject**: 輸入問題 (如 "Node-RED 是什麼?")。
+2.  **Function**: 設定 Header (Authorization) 與 Body (model: "gpt-3.5-turbo")。
+3.  **HTTP Request**: POST 到 \`https://api.openai.com/v1/chat/completions\`。
+4.  **Debug**: 查看 AI 回覆的 JSON。
+
+`,
+  solutionFlow: `[{"id":"ai_inj","type":"inject","name":"提問","props":[{"p":"payload"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"請用像海盜一樣的口吻自我介紹","payloadType":"str","x":140,"y":1000,"wires":[["ai_func"]]},{"id":"ai_func","type":"function","name":"封裝 OpenAI 請求","func":"// 請填入您的 API Key\\nvar apiKey = \"Bearer sk-xxxxxxxx\";\\n\\nmsg.headers = {\\n    \"Content-Type\": \"application/json\",\\n    \"Authorization\": apiKey\\n};\\n\\nmsg.payload = {\\n    \"model\": \"gpt-3.5-turbo\",\\n    \"messages\": [\\n        {\"role\": \"user\", \"content\": msg.payload}\\n    ]\\n};\\nreturn msg;","outputs":1,"noerr":0,"initialize":"","finalize":"","libs":[],"x":340,"y":1000,"wires":[["ai_req"]]},{"id":"ai_req","type":"http request","name":"POST API","method":"POST","ret":"obj","paytoqs":"ignore","url":"https://api.openai.com/v1/chat/completions","tls":"","persist":false,"proxy":"","authType":"","senderr":false,"headers":[],"x":540,"y":1000,"wires":[["ai_debug"]]},{"id":"ai_debug","type":"debug","name":"AI 回覆","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload.choices[0].message.content","targetType":"msg","statusVal":"","statusType":"auto","x":740,"y":1000,"wires":[]}]`
   },
-  {
-    id: 'ai-2',
+{
+  id: 'ai-2',
     title: '3-2. 電腦視覺與影像分析',
-    level: 'ai',
-    description: '模擬串接 Vision API，辨識圖片中的物件。',
-    content: `# 讓系統「看見」世界\n\n利用 AI 進行影像辨識。\n\n\n\n## 應用場景\n* 工廠瑕疵檢測\n* 車牌辨識系統\n* 人臉識別門禁\n\n## 實作環境與材料\n\n* **影像來源**：IP Camera 或 網路圖片 URL\n* **AI 服務**：Google Cloud Vision API 或 Microsoft Azure Computer Vision\n\n## 模擬實作\n\n1.  **Inject**: 輸入圖片 URL。\n2.  **HTTP Request**: 呼叫 Vision API。\n3.  **Function**: 解析回傳的標籤 (Tags) 與信心分數 (Confidence)。`,
-    solutionFlow: `[{"id":"vis_1","type":"inject","name":"圖片 URL","payload":"http://example.com/cat.jpg","x":150,"y":1100,"wires":[["vis_req"]]},{"id":"vis_req","type":"http request","name":"POST Vision API","method":"POST","url":"https://api.example.com/vision/analyze","x":350,"y":1100,"wires":[["vis_debug"]]},{"id":"vis_debug","type":"debug","name":"辨識結果","x":550,"y":1100,"wires":[]}]`
-  },
-  {
-    id: 'ai-3',
+      level: 'ai',
+        description: '模擬串接 Vision API，辨識圖片中的物件。',
+          content: `# 讓系統「看見」世界
+
+利用 AI 進行影像辨識。
+
+## 1. 常用視覺 API
+
+*   **Google Cloud Vision API**: Google 的強大視覺辨識服務。
+*   **Microsoft Azure Computer Vision**: 微軟的視覺解決方案。
+
+## 2. 如何申請 (以 Google 為例)？
+
+1.  前往 [Google Cloud Console (GCP)](https://console.cloud.google.com)。
+2.  建立一個新專案。
+3.  在搜尋欄輸入 "Cloud Vision API" 並點擊 **啟用 (Enable)**。
+4.  前往 **憑證 (Credentials)** -> **建立憑證** -> **API 金鑰**。
+5.  複製這串 API Key。
+
+## 3. 費用說明
+
+*   **Google Cloud Vision**: 每月前 1,000 次呼叫免費。之後約 $1.50 USD / 1,000 次。
+*   適合測試與小規模專案。
+
+## 模擬實作
+
+1.  **Inject**: 輸入圖片 URL。
+2.  **HTTP Request**: 呼叫 Vision API。
+3.  **Function**: 解析回傳的標籤 (Tags) 與信心分數 (Confidence)。`,
+            solutionFlow: `[{"id":"vis_1","type":"inject","name":"圖片 URL","payload":"http://example.com/cat.jpg","x":150,"y":1100,"wires":[["vis_req"]]},{"id":"vis_req","type":"http request","name":"POST Vision API","method":"POST","url":"https://api.example.com/vision/analyze","x":350,"y":1100,"wires":[["vis_debug"]]},{"id":"vis_debug","type":"debug","name":"辨識結果","x":550,"y":1100,"wires":[]}]`
+},
+{
+  id: 'ai-3',
     title: '3-3. 語音助理實作',
-    level: 'ai',
-    description: '模擬語音轉文字 (STT) 與意圖識別。',
-    content: `# 打造語音控制介面\n\n結合 Speech-to-Text (STT) 技術。\n\n\n\n## 實作環境與材料\n\n* **硬體**：麥克風 (PC/手機)\n* **服務**：Web Speech API (瀏覽器內建) 或 Google STT API\n\n## 流程架構\n\n1.  **麥克風輸入** (模擬為音訊檔)。\n2.  **STT 轉換**：將音訊轉為文字指令 (如 "打開客廳電燈")。\n3.  **語意分析**：解析關鍵字 ("打開", "客廳", "電燈")。\n4.  **執行動作**：觸發對應的 MQTT 開關。`,
-    solutionFlow: `[{"id":"stt_1","type":"inject","name":"模擬語音指令","payload":"打開客廳電燈","x":150,"y":1200,"wires":[["stt_switch"]]},{"id":"stt_switch","type":"switch","name":"意圖分析","property":"payload","rules":[{"t":"cont","v":"打開"},{"t":"cont","v":"關閉"}],"x":350,"y":1200,"wires":[["stt_on"],["stt_off"]]},{"id":"stt_on","type":"debug","name":"執行：開啟","x":550,"y":1180,"wires":[]},{"id":"stt_off","type":"debug","name":"執行：關閉","x":550,"y":1220,"wires":[]}]`
-  },
-  {
-    id: 'ai-4',
+      level: 'ai',
+        description: '模擬語音轉文字 (STT) 與意圖識別。',
+          content: `# 打造語音控制介面
+
+結合 Speech-to-Text (STT) 技術。
+
+## 1. 語音辨識方案
+
+*   **Web Speech API**: 瀏覽器內建，完全免費，但需在 HTTPS 環境下運作，且支援度不一。
+*   **Google Cloud Speech-to-Text**: 辨識率高，支援多國語言。
+
+## 2. 如何申請 Google STT？
+
+1.  前往 GCP Console 啟用 **Cloud Speech-to-Text API**。
+2.  建立 API Key (同視覺 API 步驟)。
+3.  注意：Google STT 通常需要將音訊轉為 Base64 字串上傳。
+
+## 3. 費用說明
+
+*   **Web Speech API**: **免費**。
+*   **Google STT**: 每月前 60 分鐘音訊處理免費。之後約 $0.006 USD / 15秒。
+
+## 流程架構
+
+1.  **麥克風輸入** (模擬為音訊檔)。
+2.  **STT 轉換**：將音訊轉為文字指令 (如 "打開客廳電燈")。
+3.  **語意分析**：解析關鍵字 ("打開", "客廳", "電燈")。
+4.  **執行動作**：觸發對應的 MQTT 開關。`,
+            solutionFlow: `[{"id":"stt_1","type":"inject","name":"模擬語音指令","payload":"打開客廳電燈","x":150,"y":1200,"wires":[["stt_switch"]]},{"id":"stt_switch","type":"switch","name":"意圖分析","property":"payload","rules":[{"t":"cont","v":"打開"},{"t":"cont","v":"關閉"}],"x":350,"y":1200,"wires":[["stt_on"],["stt_off"]]},{"id":"stt_on","type":"debug","name":"執行：開啟","x":550,"y":1180,"wires":[]},{"id":"stt_off","type":"debug","name":"執行：關閉","x":550,"y":1220,"wires":[]}]`
+},
+{
+  id: 'ai-4',
     title: '3-4. AI 情感分析客服',
-    level: 'ai',
-    description: '利用 NLP 技術自動分析客戶留言情緒，進行智慧分流。',
-    content: `# 智慧客服系統：情感分析\n\n自動判讀客戶留言是「正面好評」還是「負面抱怨」，並自動通知相關部門。\n\n\n\n## 實作環境與材料\n\n* **服務**：Sentiment Analysis API (如 Google Natural Language API)\n* **輸入**：客戶留言文字\n\n## 實作步驟\n\n1.  **輸入留言**：使用 \`ui_text_input\` 讓使用者輸入。\n2.  **呼叫 API**：將文字傳送給 NLP 模型。\n3.  **判斷分數**：\n    * 分數 > 0.5 (正面)：自動回覆感謝。\n    * 分數 < -0.5 (負面)：發送 LINE 通知給經理處理。\n4.  **顯示結果**：在 Dashboard 顯示分析結果。`,
-    solutionFlow: `[{"id":"nlp_in","type":"inject","name":"客戶留言","payload":"這產品太棒了，我很喜歡！","x":150,"y":1300,"wires":[["nlp_func"]]},{"id":"nlp_func","type":"function","name":"模擬 NLP 分析","func":"// 模擬 API 回傳\nvar score = 0.8; // 正面\nmsg.payload = { score: score, sentiment: 'positive' };\nreturn msg;","x":350,"y":1300,"wires":[["nlp_switch"]]},{"id":"nlp_switch","type":"switch","name":"情緒分流","property":"payload.score","rules":[{"t":"gt","v":"0.5"},{"t":"lt","v":"-0.5"}],"x":550,"y":1300,"wires":[["nlp_pos"],["nlp_neg"]]},{"id":"nlp_pos","type":"debug","name":"回覆感謝","x":750,"y":1280,"wires":[]},{"id":"nlp_neg","type":"debug","name":"通知經理","x":750,"y":1320,"wires":[]}]`
-  },
-  {
-    id: 'ai-5',
+      level: 'ai',
+        description: '利用 NLP 技術自動分析客戶留言情緒，進行智慧分流。',
+          content: `# 智慧客服系統：情感分析
+
+自動判讀客戶留言是「正面好評」還是「負面抱怨」，並自動通知相關部門。
+
+## 1. 自然語言處理 (NLP) API
+
+*   **Google Cloud Natural Language API**: 提供情感分析、實體辨識等功能。
+*   **Azure Language Service**: 微軟的 NLP 解決方案。
+
+## 2. 如何申請 (Google)？
+
+1.  前往 GCP Console 啟用 **Cloud Natural Language API**。
+2.  取得 API Key。
+
+## 3. 費用說明
+
+*   **Google NLP**: 每月前 5,000 單位 (Units) 免費。
+*   對於一般測試與 Side Project 非常夠用。
+
+## 實作步驟
+
+1.  **輸入留言**：使用 \`ui_text_input\` 讓使用者輸入。
+2.  **呼叫 API**：將文字傳送給 NLP 模型。
+3.  **判斷分數**：
+    * 分數 > 0.5 (正面)：自動回覆感謝。
+    * 分數 < -0.5 (負面)：發送 LINE 通知給經理處理。
+4.  **顯示結果**：在 Dashboard 顯示分析結果。`,
+            solutionFlow: `[{"id":"nlp_in","type":"inject","name":"客戶留言","payload":"這產品太棒了，我很喜歡！","x":150,"y":1300,"wires":[["nlp_func"]]},{"id":"nlp_func","type":"function","name":"模擬 NLP 分析","func":"// 模擬 API 回傳\nvar score = 0.8; // 正面\nmsg.payload = { score: score, sentiment: 'positive' };\nreturn msg;","x":350,"y":1300,"wires":[["nlp_switch"]]},{"id":"nlp_switch","type":"switch","name":"情緒分流","property":"payload.score","rules":[{"t":"gt","v":"0.5"},{"t":"lt","v":"-0.5"}],"x":550,"y":1300,"wires":[["nlp_pos"],["nlp_neg"]]},{"id":"nlp_pos","type":"debug","name":"回覆感謝","x":750,"y":1280,"wires":[]},{"id":"nlp_neg","type":"debug","name":"通知經理","x":750,"y":1320,"wires":[]}]`
+},
+{
+  id: 'ai-5',
     title: '3-5. AI 繪圖生成器',
-    level: 'ai',
-    description: '串接 DALL-E 或 Stable Diffusion，透過文字描述生成圖片。',
-    content: `# 文字轉圖片 (Text-to-Image)\n\n輸入一段描述，讓 AI 自動產生對應的圖片。\n\n\n\n## 實作環境與材料\n\n* **API**：OpenAI DALL-E API\n* **顯示**：Node-RED Dashboard \`ui_template\`\n\n## 實作步驟\n\n1.  **輸入提示詞 (Prompt)**：例如 "一隻在太空騎腳踏車的貓"。\n2.  **呼叫 API**：傳送 Prompt 至 DALL-E。\n3.  **獲取 URL**：API 回傳圖片的網址。\n4.  **顯示圖片**：使用 \`ui_template\` 將 URL 放入 \`<img src="...">\` 標籤中顯示。\n\n`,
-    solutionFlow: `[{"id":"img_in","type":"inject","name":"Prompt","payload":"A cyberpunk cat","x":150,"y":1400,"wires":[["img_req"]]},{"id":"img_req","type":"http request","name":"DALL-E API","method":"POST","url":"https://api.openai.com/v1/images/generations","x":350,"y":1400,"wires":[["img_show"]]},{"id":"img_show","type":"template","name":"顯示圖片","format":"handlebars","template":"<img src='{{payload.data[0].url}}' width='300'>","x":550,"y":1400,"wires":[]}]`
-  }
+      level: 'ai',
+        description: '串接 DALL-E 或 Stable Diffusion，透過文字描述生成圖片。',
+          content: `# 文字轉圖片 (Text-to-Image)
+
+輸入一段描述，讓 AI 自動產生對應的圖片。
+
+## 1. 影像生成 API
+
+*   **OpenAI DALL-E 3**: 目前主流且品質極高的生成模型。
+*   **Stable Diffusion**: 開源模型，可自架 API (免費) 或使用 Stability AI (付費)。
+
+## 2. 如何申請 (OpenAI)？
+
+1.  與 ChatGPT 相同，使用 OpenAI Platform 帳號。
+2.  確保 API Key 有效且有餘額。
+
+## 3. 費用說明
+
+*   **DALL-E 3 (Standard)**:
+    *   1024x1024 解析度：**$0.040 USD / 張** (約台幣 1.2 元)。
+    *   HD 高畫質版：**$0.080 USD / 張**。
+*   **DALL-E 2**: 較便宜，約 $0.020 USD / 張。
+
+## 實作步驟
+
+1.  **輸入提示詞 (Prompt)**：例如 "一隻在太空騎腳踏車的貓"。
+2.  **呼叫 API**：傳送 Prompt 至 DALL-E。
+3.  **獲取 URL**：API 回傳圖片的網址。
+4.  **顯示圖片**：使用 \`ui_template\` 將 URL 放入 \`<img src="...">\` 標籤中顯示。
+
+`,
+            solutionFlow: `[{"id":"img_in","type":"inject","name":"Prompt","payload":"A cyberpunk cat","x":150,"y":1400,"wires":[["img_req"]]},{"id":"img_req","type":"http request","name":"DALL-E API","method":"POST","url":"https://api.openai.com/v1/images/generations","x":350,"y":1400,"wires":[["img_show"]]},{"id":"img_show","type":"template","name":"顯示圖片","format":"handlebars","template":"<img src='{{payload.data[0].url}}' width='300'>","x":550,"y":1400,"wires":[]}]`
+}
 ];
 
 // --- 元件：簡易 Markdown 渲染器 ---
