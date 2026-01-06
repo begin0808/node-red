@@ -4,7 +4,8 @@ import {
   Trash2, X, Maximize2, Minimize2, MoreVertical,
   MousePointer2, Hand, ZoomIn, ZoomOut, CheckCircle2,
   ChevronRight, ChevronDown, List, Copy, Search, SlidersHorizontal,
-  CloudLightning, Smartphone, FileJson, Gauge, GitBranch, Upload
+  CloudLightning, Smartphone, FileJson, Gauge, GitBranch, Upload,
+  Cpu, Box, HelpCircle, ArrowRight, Sparkles, Code2, AlertTriangle
 } from 'lucide-react';
 
 // --- React Flow Imports (本機版已啟用) ---
