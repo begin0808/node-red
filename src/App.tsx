@@ -5,7 +5,8 @@ import {
   MousePointer2, Hand, ZoomIn, ZoomOut, CheckCircle2,
   ChevronRight, ChevronDown, List, Copy, Search, SlidersHorizontal,
   CloudLightning, Smartphone, FileJson, Gauge, GitBranch, Upload,
-  Cpu, Box, HelpCircle, ArrowRight, Sparkles, Code2, AlertTriangle
+  Cpu, Box, HelpCircle, ArrowRight, Sparkles, Code2, AlertTriangle,
+  Clock, Edit3, Server, ArrowLeftRight, Bot, Eye, Mic, Smile, Image, Type, ToggleLeft, FormInput, PieChart
 } from 'lucide-react';
 
 // --- React Flow Imports (本機版已啟用) ---
@@ -67,7 +68,10 @@ const NODE_CONFIGS: Record<string, { title: string, fields: { label: string, typ
 
   // Network
   mqtt: { title: "MQTT In/Out", fields: [{ label: "Server", type: "text", placeholder: "broker.emqx.io:1883" }, { label: "Topic", type: "text", placeholder: "topic/path" }, { label: "QoS", type: "select", options: ["0", "1", "2"] }] },
+  "mqtt in": { title: "MQTT In", fields: [{ label: "Server", type: "text", placeholder: "broker.emqx.io:1883" }, { label: "Topic", type: "text", placeholder: "topic/path" }, { label: "QoS", type: "select", options: ["0", "1", "2"] }] },
+  "mqtt out": { title: "MQTT Out", fields: [{ label: "Server", type: "text", placeholder: "broker.emqx.io:1883" }, { label: "Topic", type: "text", placeholder: "topic/path" }, { label: "QoS", type: "select", options: ["0", "1", "2"] }] },
   http_req: { title: "HTTP Request", fields: [{ label: "Method", type: "select", options: ["GET", "POST", "PUT", "DELETE"] }, { label: "URL", type: "text", placeholder: "http://" }, { label: "Return", type: "select", options: ["a parsed JSON object", "a string"] }] },
+  "http request": { title: "HTTP Request", fields: [{ label: "Method", type: "select", options: ["GET", "POST", "PUT", "DELETE"] }, { label: "URL", type: "text", placeholder: "http://" }, { label: "Return", type: "select", options: ["a parsed JSON object", "a string"] }] },
   http_in: { title: "HTTP In", fields: [{ label: "Method", type: "select", options: ["GET", "POST"] }, { label: "URL", type: "text", placeholder: "/api/endpoint" }] },
   http_res: { title: "HTTP Response", fields: [{ label: "Status Code", type: "number", placeholder: "200" }] },
 
@@ -1007,7 +1011,10 @@ const DelayNode = (props: any) => <BaseNode {...props} label="delay 2s" icon={Cl
 const ChangeNode = (props: any) => <BaseNode {...props} label="change" icon={Edit3} color="yellow" isSource={true} isTarget={true} />;
 const TemplateNode = (props: any) => <BaseNode {...props} label="template" icon={FileJson} color="slate" isSource={true} isTarget={true} />;
 // Network
+// Network
 const MqttNode = (props: any) => <BaseNode {...props} label="mqtt out" icon={CloudLightning} color="red" isSource={true} isTarget={true} />;
+const MqttInNode = (props: any) => <BaseNode {...props} label="mqtt in" icon={CloudLightning} color="blue" isSource={true} />;
+const MqttOutNode = (props: any) => <BaseNode {...props} label="mqtt out" icon={CloudLightning} color="green" isTarget={true} />;
 const HttpRequestNode = (props: any) => <BaseNode {...props} label="http req" icon={Cloud} color="slate" isSource={true} isTarget={true} />;
 const HttpInNode = (props: any) => <BaseNode {...props} label="http in" icon={Server} color="slate" isSource={true} onInject={props.data.onInject} />;
 const HttpResponseNode = (props: any) => <BaseNode {...props} label="http res" icon={ArrowLeftRight} color="slate" isTarget={true} />;
@@ -1097,7 +1104,12 @@ const nodeTypes = {
   ui_slider: UiSliderNode,
   ui_dropdown: UiDropdownNode,
   ui_text_input: UiInputNode,
-  ui_chart: UiChartNode
+  ui_chart: UiChartNode,
+  // Aliases for Import
+  "mqtt in": MqttInNode,
+  "mqtt out": MqttOutNode,
+  "http request": HttpRequestNode,
+};
 };
 
 // --- RealSimulatorCanvas ---
@@ -1349,7 +1361,7 @@ const RealSimulatorCanvas = () => {
       const newEdges: Edge[] = [];
 
       flows.forEach((n: any) => {
-        if (!n.type || n.type === 'tab') return; // Skip config nodes or tabs
+        if (!n.type || n.type === 'tab' || n.type === 'mqtt-broker' || n.type === 'ui_group' || n.type === 'ui_tab' || n.type === 'ui_base') return; // Skip config nodes
 
         // Map Node-RED type to React Flow type if needed
         let type = n.type;
