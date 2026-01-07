@@ -6,7 +6,7 @@ import {
   ChevronRight, ChevronDown, List, Copy, Search, SlidersHorizontal,
   CloudLightning, Smartphone, FileJson, Gauge, GitBranch, Upload,
   Cpu, Box, HelpCircle, ArrowRight, Sparkles, Code2, AlertTriangle,
-  Clock, Edit3, Server, ArrowLeftRight, Bot, Eye, Mic, Smile, Image, Type, ToggleLeft, FormInput, PieChart
+  Clock, Edit3, Server, ArrowLeftRight, Bot, Eye, Mic, Smile, Image, Type, ToggleLeft, FormInput, PieChart, LayoutDashboard
 } from 'lucide-react';
 
 // --- React Flow Imports (本機版已啟用) ---
@@ -287,7 +287,7 @@ Node-RED 的編輯器主要分為三個區域：
     title: '1-7. Dashboard 介面節點',
     level: 'foundation',
     description: 'UI Button, Text, Gauge, Switch, Slider 等視覺化儀表板元件。',
-    content: `# 儀表板節點 (Dashboard)\n\n快速建立網頁監控介面，無需寫 HTML/CSS。\n\n## 1. UI Button (按鈕)\n**用途**：在網頁上建立按鈕，點擊後觸發流程。\n**設定**：設定 \`Payload\` 為點擊時要發送的內容。\n\n## 2. UI Switch (開關)\n**用途**：切換 ON/OFF 狀態。\n**設定**：定義 On Payload (如 true) 與 Off Payload (如 false)。\n\n[Config: Dashboard Switch]\n\n## 3. UI Slider (滑桿)\n**用途**：拖曳選擇數值區間。\n**設定**：設定 Min (最小) 與 Max (最大) 值。\n\n## 4. UI Dropdown (選單)\n**用途**：下拉選擇特定選項。\n**設定**：編輯 Options 列表 (Label 與 Value)。\n\n## 5. UI Text Input (輸入)\n**用途**：讓使用者輸入文字或數字。\n**設定**：可設定 Label 與 Delay (輸入後延遲多久發送)。\n\n## 6. UI Text (顯示)\n**用途**：顯示數值或文字。\n**設定**：\`Value format\` 可使用 \`{{msg.payload}}\` 格式化。\n\n## 7. UI Gauge (儀表)\n**用途**：以圖形化儀表顯示數值 (如溫度、濕度)。\n**設定**：\n* \`Type\`：圓錶、甜甜圈、指南針等。\n* \`Range\`：設定數值範圍與顏色區間。\n\n[Config: Dashboard Gauge]\n\n## 8. UI Chart (圖表)\n**用途**：繪製折線圖或長條圖。\n**設定**：需給定 \`msg.payload\` (數值) 與 \`msg.topic\` (數據分類)。`,
+    content: `# 儀表板節點 (Dashboard)\n\n> **注意**：線上模擬器主要用於學習邏輯，**不支援** Dashboard 視覺化預覽。若需預覽儀表板，請安裝本機版 Node-RED。\n\n快速建立網頁監控介面，無需寫 HTML/CSS。\n\n## 1. UI Button (按鈕)\n**用途**：在網頁上建立按鈕，點擊後觸發流程。\n**設定**：設定 \`Payload\` 為點擊時要發送的內容。\n\n## 2. UI Switch (開關)\n**用途**：切換 ON/OFF 狀態。\n**設定**：定義 On Payload (如 true) 與 Off Payload (如 false)。\n\n[Config: Dashboard Switch]\n\n## 3. UI Slider (滑桿)\n**用途**：拖曳選擇數值區間。\n**設定**：設定 Min (最小) 與 Max (最大) 值。\n\n## 4. UI Dropdown (選單)\n**用途**：下拉選擇特定選項。\n**設定**：編輯 Options 列表 (Label 與 Value)。\n\n## 5. UI Text Input (輸入)\n**用途**：讓使用者輸入文字或數字。\n**設定**：可設定 Label 與 Delay (輸入後延遲多久發送)。\n\n## 6. UI Text (顯示)\n**用途**：顯示數值或文字。\n**設定**：\`Value format\` 可使用 \`{{msg.payload}}\` 格式化。\n\n## 7. UI Gauge (儀表)\n**用途**：以圖形化儀表顯示數值 (如溫度、濕度)。\n**設定**：\n* \`Type\`：圓錶、甜甜圈、指南針等。\n* \`Range\`：設定數值範圍與顏色區間。\n\n[Config: Dashboard Gauge]\n\n## 8. UI Chart (圖表)\n**用途**：繪製折線圖或長條圖。\n**設定**：需給定 \`msg.payload\` (數值) 與 \`msg.topic\` (數據分類)。`,
     solutionFlow: `[]`
   },
 
@@ -1119,7 +1119,7 @@ const RealSimulatorCanvas = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
-  const [tab, setTab] = useState<'debug' | 'props'>('debug');
+  const [tab, setTab] = useState<'debug' | 'props' | 'dashboard'>('debug');
   // Import Feature State
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [importJson, setImportJson] = useState('');
@@ -1489,12 +1489,32 @@ const RealSimulatorCanvas = () => {
             onClick={() => setTab('props')}
             className={`flex-1 py-3 text-xs font-bold uppercase tracking-wide flex items-center justify-center gap-2 ${tab === 'props' ? 'text-cyan-400 bg-slate-800 border-b-2 border-cyan-500' : 'text-slate-500 hover:text-slate-300'}`}
           >
-            <List className="w-3 h-3" /> Properties
+            <List className="w-3 h-3" /> Props
+          </button>
+          <button
+            onClick={() => setTab('dashboard')}
+            className={`flex-1 py-3 text-xs font-bold uppercase tracking-wide flex items-center justify-center gap-2 ${tab === 'dashboard' ? 'text-blue-400 bg-slate-800 border-b-2 border-blue-500' : 'text-slate-500 hover:text-slate-300'}`}
+          >
+            <LayoutDashboard className="w-3 h-3" /> Dash
           </button>
         </div>
 
         <div className="flex-1 p-2 overflow-y-auto custom-scrollbar bg-slate-900">
-          {tab === 'debug' ? (
+          {tab === 'dashboard' ? (
+            <div className="flex flex-col items-center justify-center h-full text-center p-4 text-slate-500 space-y-4">
+              <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mb-2 animate-pulse">
+                <LayoutDashboard className="w-8 h-8 text-slate-600" />
+              </div>
+              <h3 className="text-slate-300 font-bold">Dashboard 預覽</h3>
+              <p className="text-xs leading-relaxed">
+                線上模擬器目前僅支援<br /><span className="text-cyan-400 font-bold">邏輯與數據流模擬</span>。
+              </p>
+              <div className="bg-yellow-900/20 border border-yellow-700/50 p-3 rounded text-xs text-yellow-200/80 text-left w-full shadow-inner">
+                <AlertTriangle className="w-3 h-3 inline mr-1" />
+                儀表板 UI 渲染需要完整的 Node-RED 後端支援，請安裝本機版以體驗完整功能。
+              </div>
+            </div>
+          ) : tab === 'debug' ? (
             <div className="space-y-2">
               <div className="flex justify-between items-center px-2 pb-2 border-b border-slate-800 mb-2">
                 <span className="text-[10px] text-slate-400">Debug Messages</span>
@@ -1519,6 +1539,12 @@ const RealSimulatorCanvas = () => {
                 </div>
               ) : (
                 <>
+                  {selectedNode.type?.startsWith('ui_') && (
+                    <div className="bg-amber-900/30 border border-amber-600/30 p-2 rounded mb-4 text-xs text-amber-200/80 flex items-start gap-2 shadow-sm animate-in fade-in slide-in-from-top-1">
+                      <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                      <span>此為 Dashboard 元件，線上版僅模擬邏輯，不會顯示 UI 畫面。</span>
+                    </div>
+                  )}
                   <div className="border-b border-slate-800 pb-2 mb-2">
                     <div className="text-xs text-cyan-500 font-bold uppercase mb-1">Node Type</div>
                     <div className="text-lg text-white font-mono">{selectedNode.data.label || selectedNode.type}</div>
